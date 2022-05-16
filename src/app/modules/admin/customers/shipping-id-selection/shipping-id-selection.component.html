@@ -1,0 +1,41 @@
+
+<h3 mat-dialog-title>
+  Billing ID: {{billingDetail.billTo}}
+
+  <button mat-icon-button class="more-button" aria-label="Toggle menu" (click)="onDismiss(false)">
+    <span class="material-icons close-icon">
+      cancel
+    </span>
+  </button>
+</h3>
+  <div mat-dialog-content>
+    <mat-card-content class="dashboard-card-content">
+      <div class="row with-gutter-small">
+          <div class="col-12">
+            <mat-card class="flexible-card sub-card with-border">
+              <mat-card-header>
+                <mat-card-title>
+                  Select Shipping ID
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="dashboard-card-content">
+                <ul class="previlages-list no-style">
+                  <li *ngFor="let ship of billingDetail.details; let i = index">
+                    <div class="form__group">
+                      <div class="form__checkbox">
+                        <input [(ngModel)]="billingDetail.details[i].selected" class="form__input" type="checkbox" [id]="ship.shipTo">
+                        <label class="form__label" [for]="ship.shipTo">{{ship.shipTo}} - {{ship.location}}</label>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </mat-card-content>
+            </mat-card>
+          </div>
+      </div>
+    </mat-card-content>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onDismiss(true)">Save</button>
+  </div>

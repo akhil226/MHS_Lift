@@ -1,0 +1,95 @@
+<h1 mat-dialog-title>
+  Service History
+
+  <button mat-icon-button class="more-button" aria-label="Toggle menu">
+    <span class="material-icons close-icon" (click)="closeDialog()">
+      cancel
+    </span>
+  </button>
+</h1>
+
+<div mat-dialog-content>
+  <mat-card-content class="dashboard-card-content">
+    <div class="row with-gutter-small">
+        <div class="col-12">
+          <mat-card class="flexible-card sub-card with-border">
+            <mat-card-header>
+              <mat-card-title>
+                CUSTOMER PROBLEM
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content" *ngIf="!!data.custProblem">
+             {{data.custProblem}}
+            </mat-card-content>
+            <mat-card-content class="dashboard-card-content" *ngIf="!!!data.custProblem">
+              <div class="total-label no-data-div">No data available</div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+    </div>
+  </mat-card-content>
+  <mat-card-content class="dashboard-card-content">
+    <div class="row with-gutter-small">
+        <div class="col-12">
+          <mat-card class="flexible-card sub-card with-border">
+            <mat-card-header>
+              <mat-card-title>
+                TECHNICAL DIAGNOSIS
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content" *ngIf="!!data.technicalDiagnosis">
+              {{data.technicalDiagnosis}}
+            </mat-card-content>
+            <mat-card-content class="dashboard-card-content" *ngIf="!!!data.technicalDiagnosis">
+              <div class="total-label no-data-div">No data available</div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+    </div>
+  </mat-card-content>
+  <mat-card-content class="dashboard-card-content">
+    <div class="row with-gutter-small">
+        <div class="col-12">
+          <mat-card class="flexible-card sub-card with-border">
+            <mat-card-header>
+              <mat-card-title>
+                WORK DONE
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content" *ngIf="!!data.workDone">
+              {{data.workDone}}
+            </mat-card-content>
+            <mat-card-content class="dashboard-card-content" *ngIf="!!!data.workDone">
+              <div class="total-label no-data-div">No data available</div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+    </div>
+  </mat-card-content>
+  <mat-card-content class="dashboard-card-content">
+    <div class="row with-gutter-small">
+        <div class="col-12">
+          <mat-card class="flexible-card sub-card with-border">
+            <mat-card-header>
+              <mat-card-title>
+                PARTS
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content  *ngFor="let item of data.parts" class="dashboard-card-content">
+              <div class="row ">
+                <div class="col-7  ">
+                  {{item.partsName}}
+                </div>
+                <div class="col-5 text-right">
+                  ${{item.partsExtPrice}}
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-content class="dashboard-card-content" *ngIf="!!!data.parts?.length">
+              <div class="total-label no-data-div">No data available</div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+    </div>
+  </mat-card-content>
+</div>

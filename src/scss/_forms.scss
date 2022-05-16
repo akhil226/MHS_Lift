@@ -1,0 +1,858 @@
+@import 'icons';
+/* Container used for styling the custom select, the buttom class below adds the
+ * bg gradient, corners, etc. */
+ .form__select {
+	position: relative;
+	display: block;
+}
+
+/* This is the native select, we're making everything but the text invisible so
+ * we can see the button styles in the wrapper */
+.form__select select {
+	border-radius: 0;
+	width: 100%;
+	margin: 0;
+	outline: none;
+	padding: .6em .8em .5em .8em;
+
+	/* Prefixed box-sizing rules necessary for older browsers */
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	/* Font size must be 16px to prevent iOS page zoom on focus */
+	font-size: 1em;
+}
+
+/* Custom arrow sits on top of the select - could be an image, SVG, icon font,
+ * etc. or the arrow could just baked into the bg image on the select. */
+.form__select::after {
+	content: " ";
+	position: absolute;
+	top: 50%;
+	right: 1em;
+	z-index: 2;
+	/* These hacks make the select behind the arrow clickable in some browsers */
+	pointer-events: none;
+	display: none;
+}
+
+/* Firefox <= 34 has a false positive on @supports( -moz-appearance: none )
+ * @supports ( mask-type: alpha ) is Firefox 35+
+ */
+@supports (-webkit-appearance: none) or (appearance: none) or ((-moz-appearance: none) and (mask-type: alpha)) {
+
+	/* Show custom arrow */
+	.form__select::after {
+		display: block;
+	}
+
+	/* Remove select styling */
+	.form__select select {
+		padding-right: 2em; /* Match-01 */
+		/* inside @supports so that iOS <= 8 display the native arrow */
+		background: none; /* Match-04 */
+		/* inside @supports so that Android <= 4.3 display the native arrow */
+		border: 1px solid transparent; /* Match-05 */
+
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+	.form__select select:focus {
+		border-color: #aaa; /* Match-03 */
+	}
+}
+
+
+/****************************
+ SIMPLE RESET
+*****************************/
+/*
+    html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    html, body {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding:0;
+    }
+
+    body {
+      display:flex;
+      justify-content: center;
+      font-family: arial;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+*/
+
+
+
+
+// ******************************
+// Primary Variables
+// ******************************
+
+
+$base-font-size: 1rem;            // Global font size
+$base-font-size-percent: 87.5%;   // 14px - used for body only
+$base-font-size-em: 16;           // Define for em function
+
+// ******************************
+// Function
+// ******************************
+
+@function em($target, $context:$base-font-size-em) {
+  @return ($target/$context)+0em;
+}
+
+// ******************************
+// mixin
+// ******************************
+
+@mixin transition($properties: 'background-color, color', $duration: 0.3s, $delay:0s, $ease: cubic-bezier(0.455, 0.030, 0.515, 0.955)) {
+  transition-property: #{$properties};
+  transition-duration: $duration;
+  transition-timing-function: $ease;
+  transition-delay: $delay;
+}
+
+@mixin duration($duration: 0.2s) {
+  transition-duration: $duration;
+}
+
+@mixin delay($delay: 0.2s) {
+  transition-delay: $delay;
+}
+
+@mixin icon-offset($align: middle) {
+  // Offset the icon if on the left
+  > i:first-child {
+    left: -0.27em;
+    vertical-align: $align;
+  }
+
+  // Offset icon if on the right
+  > i:last-child {
+    right: -0.27em;
+    vertical-align: $align;
+  }
+}
+
+
+// ******************************
+// Variables
+// ******************************
+$base-spacing: em(14);       // spacing for padding / margins
+
+$color-primary: #4a4a4a;
+$color-secondary: #000000;
+$color-tertiary: #4a4a4a;
+$color-quaternary: #eeeeee;
+$color-quinary: #bbbbbb;
+$color-senary: #d8d8d8;
+
+
+
+// ******************************
+// Overwrites
+// ******************************
+
+// Form
+$form-color-primary: $color-primary;
+$form-bg-color-disabled: $color-quaternary;
+$form-color-placeholder: $color-quinary;
+$form-border-color: $color-senary;
+
+
+// ******************************
+// Element styles
+// ******************************
+
+body {
+  font-size: $base-font-size-percent;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: $color-quinary;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: $color-quinary;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: $color-quinary;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: $color-quinary;
+}
+
+
+fieldset {
+  border: none;
+  margin-bottom: em($base-font-size-em) * 2;
+  margin-top: em($base-font-size-em) * 2;
+  position: relative;
+  width: 100%;
+}
+
+legend {
+  font-size: 1.5em;
+}
+// input[type="text"], input[type="number"], select, textarea, .form__checkbox .form__label:before {
+//   background-color: #f8f9fa;
+// }
+label, input, textarea, select, button {
+  color: inherit;
+  display: block;
+  font-size: 1em; // Normalise inputs
+  position: relative;
+  margin-bottom: $base-spacing * 0.6; // Keep ratio when adjusting the
+  margin-top: $base-spacing * 0.6;
+  &.required {
+        &:after {
+            position: absolute;
+            content: "*";
+            color: #ff4141;
+            right: rem(-8);
+            top: rem(-2);
+        }
+  }
+}
+
+
+input, select {
+  height: em(45);
+}
+
+button {
+  background-color: transparent;
+  border-radius: em(3);
+  color: inherit;
+  cursor: pointer;
+  font-size: 1em;
+  height: em(43);
+  line-height: 1.8;
+  // min-width: em(235);
+  padding-left: $base-spacing * 1.5;
+  padding-right: $base-spacing * 1.5;
+  text-align: center;
+}
+
+button:focus {
+  outline: none;
+}
+
+sup {
+  color: $color-quinary;
+  font-size: 1em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+textarea {
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
+  resize: none;
+}
+
+
+// ******************************
+// Anchor
+// ******************************
+
+$anchor-color: #912729 !default;
+$anchor-color-active: darken(#912729, 10%) !default;
+$anchor-color-visited: darken(#912729, 10%) !default;
+a {
+  color:$anchor-color;
+  text-decoration: none;
+  @include icon-offset(bottom);
+  @include transition('color', 0.5s);
+}
+a:hover, a:focus {
+  color:$anchor-color-active;
+  @include duration(0.2s);
+}
+a:visited {
+  color: $anchor-color-visited;
+}
+
+
+// ******************************
+// utils
+// ******************************
+
+.list--clean {
+  list-style: none;
+  padding-left: 0;
+  > li {
+    position: relative;
+    margin-bottom: $base-spacing;
+    margin-top: $base-spacing;
+  }
+}
+
+// ******************************
+// icon
+// ******************************
+
+.icon {
+  font-family:"feather";
+  font-size: 1.1em;
+  font-style:normal;
+  position: relative;
+}
+
+.icon--lg {
+  font-size: 1.7em;
+}
+
+// ******************************
+// btn
+// ******************************
+
+// Brand
+
+// Primary color
+$btn-color-primary: #ffffff !default;
+$btn-color-primary-active: #ffffff !default;
+$btn-color-primary-disabled: #ffffff !default;
+
+// Primary background
+$btn-bg-color-primary: #912729 !default;
+$btn-bg-color-primary-active: lighten(#912729, 5%) !default;
+$btn-bg-color-primary-disabled: #d8d8d8 !default;
+
+// Secondary color
+$btn-color-secondary: #912729 !default;
+$btn-color-secondary-active: lighten(#912729, 5%) !default;
+$btn-color-secondary-disabled: #b9b8b8 !default;
+
+// Secondary background
+$btn-bg-color-secondary: $btn-color-secondary !default;
+$btn-bg-color-secondary-active: $btn-color-secondary-active !default;
+$btn-bg-color-secondary-disabled: $btn-color-secondary-disabled !default;
+
+// Functional
+
+
+
+
+.btn {
+  display: inline-block;
+  @extend button;
+  @include icon-offset;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  + .btn {
+    margin-left: 0.5rem;
+  }
+  &.full-width {
+    width: 100%;
+  }
+  .material-icons {
+    margin-right: 0.35rem;
+  }
+}
+
+.multiselect-dropdown .dropdown-btn {
+  padding: 8px 12px !important;
+}
+
+.btn--primary, .btn--primary:visited {
+  background-color: $btn-bg-color-primary;
+  border-color: transparent;
+  color: $btn-color-primary;
+  @include transition('background-color, color', 0.5s);
+}
+.btn--primary:hover, .btn--primary:focus {
+  background-color: $btn-bg-color-primary-active;
+  color: $btn-color-primary-active;
+  @include duration(0.2s);
+}
+
+.btn--stroked, .btn--stroked:visited {
+  background-color: #fff;
+  border: 1px solid #b8c4ce;
+  color: #212934;
+  @include transition('background-color, color', 0.5s);
+  .material-icons {
+    color: #5f6b7a;
+  }
+}
+.btn--stroked:hover, .btn--stroked:focus {
+  background-color: darken(#fff, 8%);
+  @include duration(0.2s);
+}
+
+.btn--stroked-danger, .btn--stroked-danger:visited {
+  background-color: #fff;
+  border: 1px solid #912728;
+  color: #912728;
+  @include transition('background-color, color', 0.5s);
+}
+.btn--stroked-danger:hover, .btn--stroked-danger:focus {
+  background-color: darken(#fff, 8%);
+  @include duration(0.2s);
+}
+
+
+.btn--primary:disabled {
+  background-color: $btn-bg-color-primary-disabled;
+  color: $btn-color-primary-disabled;
+  pointer-events: none;
+
+}
+
+.btn--tertiary,
+.btn--tertiary:visited {
+  background-color: #ebc5c6;
+  border:1px solid #912728;
+  color: #3d1516;
+  @include transition('border-color, color', 0.5s);
+  &.without-border {
+    border:0;
+  }
+}
+
+.btn--secondary, .btn--secondary:visited {
+  background-color: transparent;
+  border:1px solid $btn-bg-color-secondary;
+  color: $btn-color-secondary;
+  @include transition('border-color, color', 0.5s);
+}
+
+.btn--secondary:hover, .btn--secondary:focus {
+  border-color: $btn-color-secondary-active;
+  color: $btn-color-secondary-active;
+  @include duration(0.2s);
+}
+
+.btn--secondary:disabled {
+  border-color: $btn-bg-color-secondary-disabled;
+  color: $btn-color-secondary-disabled;
+  pointer-events: none;
+}
+
+
+// ******************************
+// Form
+// ******************************
+
+// Colours
+$form-color: #4a4a4a !default;
+$form-color-placeholder: #cccccc!default;
+$form-border-color: #cccccc!default;
+$form-color-hint: #909090 !default;
+$form-bg-color-disabled: #cccccc !default;
+$form-color-error:  #ff3459!default;
+
+// Sizing
+$form-base-size: 1rem !default;
+$form-base-spacing: 1rem !default;
+//$form-max-width: 400 !default; //px
+
+
+.form {
+  font-size: $form-base-size;
+  //max-width: em($form-max-width);
+  padding: $form-base-spacing;
+  position: relative;
+  width: 100%;
+}
+
+.form__group {
+  position: relative;
+  /* margin-bottom: $form-base-spacing;
+  margin-top: $form-base-spacing * 2; */
+  margin-bottom: $form-base-spacing / 2;
+  margin-top: $form-base-spacing / 2;
+}
+
+.form__input, .form__select .form__input {
+  color: $form-color;
+  cursor: text;
+  border: 1px solid $form-border-color;
+  padding-left: $base-spacing;
+  padding-right: $base-spacing;
+  width: 100%;
+  border-radius: 5px;
+  font-family: 'proxima_novaregular';
+  @include transition('border-color, color, box-shadow', 0.5s);
+
+  &:focus, &:hover {
+    border-color: lighten($form-color, 45%);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.09);
+    outline: none;
+    @include duration(0.2s);
+  }
+}
+
+
+.form__select .form__input {
+  cursor: pointer;
+}
+
+.form__select:before {
+  color: inherit;
+  content: '\e842';
+  display: block;
+  font-family:'feather';
+  position: absolute;
+  pointer-events: none;
+  right: $base-spacing;
+  top: calc(50% - 0.45em);
+  height: 1em;
+  width: 1em;
+  z-index: 1;
+}
+
+.form__select .form__input:required:invalid {
+  color: $form-color-placeholder;
+}
+
+
+// Checkbox
+.form__checkbox {
+  position: relative;
+
+  .form__input {
+    opacity: 0;
+    position: absolute;
+  }
+
+  .form__label {
+    cursor: pointer;
+    display: inline-block;
+    padding-left: 2rem;
+    position: relative;
+    vertical-align: middle;
+  }
+}
+
+.form__checkbox {
+
+  .form__label:before, .form__label:after {
+    content: '';
+    display: inline-block;
+    height: 1.3em;
+    left: 0;
+    position: absolute;
+    top: -0.15em;
+    width: 1.3em;
+  }
+
+  // Custom box
+  .form__label:before {
+    border:1px solid darken($form-border-color, 10%);
+  }
+
+  // Custom tick
+  .form__label:after {
+    color: $form-color;
+    content: "\e83f";
+    font-family:"feather" !important;
+    font-size: 1em;
+    font-style:normal;
+    line-height: 1.3;
+    text-align: center;
+    border: 1px solid transparent;
+  }
+}
+
+// Hide show tick
+.form__checkbox .form__input + .form__label:after {
+  display: none;
+}
+
+.form__checkbox .form__input:checked + .form__label:after {
+  display: block;
+}
+
+//TODO - Define focus
+// .form__checkbox .form__input:focus + .form__label:before {}
+
+.form__checkbox .form__input:disabled + .form__label {
+  color: $form-color-placeholder;
+  cursor: default;
+}
+
+.form__checkbox .form__input:disabled + .form__label:after {
+  color: $form-color-placeholder;
+}
+
+.form__checkbox .form__input:disabled + .form__label:before {
+  background-color: $form-bg-color-disabled;
+  border-color: $form-border-color;
+}
+
+// Radio buttons
+.form__radio {
+  position: relative;
+
+  .form__input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .form__label {
+    cursor: pointer;
+    display: inline-block;
+    padding-left: 2rem;
+    position: relative;
+    vertical-align: middle;
+  }
+
+}
+
+.form__radio {
+  .form__label:before, .form__label:after {
+    content: '';
+    display: inline-block;
+    height: 1.3em;
+    left: 0;
+    position: absolute;
+    top: -0.15em;
+    width: 1.3em;
+  }
+
+  .form__label:before {
+    border-radius: 50%;
+    border:1px solid darken($form-border-color, 10%);
+  }
+
+  .form__label:after {
+    color: $form-color;
+    content: "";
+    transform: scale(0.5);
+    border-radius: 50%;
+    background-color: #912729;
+    border: 1px solid #912729;
+  }
+
+}
+
+
+// Hide show tick
+.form__radio .form__input + .form__label:after {
+  display: none;
+}
+
+.form__radio .form__input:checked + .form__label:after {
+  display: block;
+}
+
+//TODO - Define focus
+// .form__radio .form__input:focus + .form__label:before {}
+
+.form__radio .form__input:disabled + .form__label {
+  color: $form-color-placeholder;
+  cursor: default;
+}
+
+.form__radio .form__input:disabled + .form__label:after {
+  background-color: $form-color-placeholder;
+}
+
+.form__radio .form__input:disabled + .form__label:before {
+  background-color: $form-bg-color-disabled;
+  border-color: $form-border-color;
+}
+
+
+
+
+
+.form__hint, .form__error {
+  display: block;
+  position: relative;
+  margin-bottom: $form-base-spacing * 0.7;
+}
+
+.form__hint {
+  color: $form-color-hint;
+}
+
+// Modifiers
+.form__group--disabled {
+  color: $form-color-placeholder;
+  pointer-events: none;
+
+  .form__input {
+    color: inherit;
+    background-color: $form-bg-color-disabled;
+  }
+}
+
+.form__group--error {
+  .form__input {
+    color: $form-color-error;
+    border-color: $form-color-error;
+  }
+  .form__error, .form__select:before {
+    color: $form-color-error;
+  }
+}
+
+.inline-form {
+  .form__group {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+  .form__label {
+    //flex: 1;
+    width: 140px;
+    font-size: 17px;
+    + * {
+      flex: auto;
+    }
+  }
+}
+.date_picker {
+  position: relative;
+  mat-datepicker-toggle {
+    position: absolute;
+    top: -1px;
+    right: 0;
+  }
+}
+.multiselect-red {
+  .multiselect-dropdown .dropdown-btn {
+    background: #ebc5c6;
+    border:1px solid #d97373 !important;
+    color: #721b1c;
+  }
+}
+.sub-head-multiselect {
+  .dropdown-multiselect__caret {
+    right: -7px !important;
+  }
+  .selected-item {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 30rem;
+    text-overflow: ellipsis;
+    border: #ebc5c6 !important;
+    background: #ebc5c6 !important;
+    color: #721b1c !important;
+  }
+}
+.search-multiselect {
+  .dropdown-multiselect__caret {
+    right: -7px !important;
+  }
+  .multiselect-dropdown {
+    color: #212934;
+    background-color: #ffffff;
+    cursor: text;
+    border: 1px solid #d8d8d8;
+    width: 100%;
+    border-radius: 5px;
+  }
+  .selected-item {
+    white-space: nowrap;
+    overflow: hidden;
+    width: calc(100% - 2.5rem);
+    text-overflow: ellipsis;
+    border: #ebc5c6 !important;
+    background: #ffffff !important;
+    color: #212934 !important;
+  }
+}
+.rows-per-page-multieselect{
+  .multiselect-dropdown{
+    width: 50% !important;
+  }
+  .dropdown-btn {
+    background-color: #e1e7ec;
+  }
+  .selected-item {
+    border: #e1e7ec !important;
+    background: #e1e7ec !important;
+    color: #212934 !important;
+  }
+}
+.mat-button.zero-space {
+  margin: 0 !important;
+}
+mat-slide-toggle {
+  &.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: #fff;
+  }
+  &.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: #50c74f;
+  }
+  .mat-slide-toggle-label {
+    margin: 0;
+  }
+}
+.no-style {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: -0.32px;
+  color: #212934;
+  li {
+    padding: 0.3rem 0;
+  }
+}
+.multiselect-dropdown {
+  input[type="text"] {
+      padding: 0;
+      margin: 0;
+      height: 1rem;
+  }
+}
+.form__label.form_value_label {
+    margin-bottom: 0;
+    color: #8895a7;
+}
+
+app-multiselect.card-header-dropdown {
+  .multiselect-dropdown .dropdown-btn {
+    border: 1px solid #cfd6de !important;
+  }
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+  .btn-upload {
+    padding: 10px;
+    border-radius: 4px;
+    border: solid 1px #e1e7ec;
+    background-image: linear-gradient(to bottom, #f8f9fa, #ecefef 95%, #edf0f0);
+    font-size: 14px;
+    color: #212934;
+    width: 100%;
+    text-align: left;
+    line-height: 1rem;
+  }
+
+   input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+}

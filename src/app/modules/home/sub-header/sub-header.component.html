@@ -1,0 +1,74 @@
+<div class="grid-container">
+  <div class="custom-flexible-grid">
+    <mat-card class="flexible-card">
+      <mat-card-content class="dashboard-card-content">
+        <div class="row with-gutter">
+          <div class="col-7">
+            <form action="" class="inline-form">
+              <div class="form__group" *ngIf="show === '/dashboard'">
+                <label class="form__label" for="select-default">Welcome</label>
+                <div class="form__value bold bold">
+                  {{firstName}} {{lastName}}
+                </div>
+              </div>
+              <!-- <div class="form__group">
+                  <label class="form__label" for="select-default">Billing Company</label>
+                  <app-multiselect class="multiselect-red" [dropdown]="dropdown"></app-multiselect>
+              </div> -->
+              <div class="form__group">
+                <label class="form__label" for="select-default">Billing ID</label>
+                <ng-container *ngIf="!isAdmin; else adminBillingIdSearch">
+                  <app-multiselect class="multiselect-red sub-head-multiselect" name="billingId"
+                    [dropdown]="billingIdDdl" [(ngModel)]="billingId" (ngModelChange)="changeBillingId()">
+                  </app-multiselect>
+                </ng-container>
+                <ng-template #adminBillingIdSearch>
+                  <app-billing-id-search (billingIdChange)="onAdminBillingIdChange($event)">
+                  </app-billing-id-search>
+                </ng-template>
+              </div>
+              <div class="form__group" *ngIf="!!selectedAdminBillingId">
+                <label class="form__label" for="select-default">Selected Billing ID</label>
+                <mat-chip-list class="padding-adjust">
+                  <mat-chip [matTooltip]="selectedAdminBillingId" class="color-red">{{selectedAdminBillingId}}
+                  </mat-chip>
+                </mat-chip-list>
+              </div>
+              <div *ngIf="!billingId?.length && !selectedAdminBillingId" class="billingid-warning">Please select a Billing ID</div>
+            </form>
+          </div>
+          <div class="col-5 text-right"
+            *ngIf="userPrivilage[5]?.menuStatus === 'A' && userPrivilage[5]?.userMenuStatus === 'A'  && userPrivilage[5]?.adminMenuStatus === 'A' || userType">
+            <button routerLink="/dashboard/service-request" class="btn btn--primary"
+              *ngIf="show !== '/dashboard/service-request'">
+              <span class="material-icons">
+                settings
+              </span>
+              <span>Request Service</span>
+            </button>
+            <button routerLink="/dashboard/pm-request" class="btn btn--primary"
+              *ngIf="show !== '/dashboard/pm-request'">
+              <span class="material-icons">
+                build
+              </span>
+              <span>Request PM</span>
+            </button>
+            <!-- <button  class="btn btn--primary" *ngIf="show !== '/dashboard/service-request'">
+              <span class="material-icons">
+                settings
+              </span>
+              <span>Request Service</span>
+            </button>
+            <button  class="btn btn--primary"
+              *ngIf="show !== '/dashboard/pm-request'">
+              <span class="material-icons">
+                build
+              </span>
+              <span>Request PM</span>
+            </button> -->
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

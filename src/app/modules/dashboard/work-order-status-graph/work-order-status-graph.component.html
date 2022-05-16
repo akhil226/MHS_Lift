@@ -1,0 +1,13 @@
+<div class="row align-items-center">
+  <div class="col-4"> <div id="woStatus"></div> </div>
+  <div class="col-8" *ngIf="total && total !== '0'">
+      <div class="total">{{total}}</div>
+      <div class="total-label">{{type}}</div>
+      <ul class="graph-legends">
+          <li (mouseover)="legendMouserover(legent[0])" (mouseout)="legendMouseOut()" (click)="onLegendClick(legent)" *ngFor="let legent of columns; let i = index"><span [style.background-color]="colors[legent[0]]" class="color"></span><span class="label">{{legent[0]}}</span>  <span class="value">{{legent[1]}}</span></li>
+      </ul>
+  </div>
+  <div class="col-8" *ngIf="total === '0' || !total">
+    <div class="total-label">No data Found</div>
+</div>
+</div>
