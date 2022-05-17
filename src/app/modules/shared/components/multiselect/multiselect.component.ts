@@ -41,8 +41,6 @@ export class MultiselectComponent implements OnInit, OnChanges, ControlValueAcce
     };
   }
   ngOnInit(): void {
-    console.log(this.dropdown,">><<>");
-
     this.selectedItems = [];
   }
   ngOnChanges(changes: SimpleChanges): void {

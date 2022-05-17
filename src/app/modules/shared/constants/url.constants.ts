@@ -57,5 +57,6 @@ export const URLS = Object.freeze({
   getClaimTypeList:`${baseUrl}workorders/claimTypeWOList`,
   getClaimTypeMetadataUrl: `${baseUrl}metadata/getClaimType`,
   saveWOClaimType:`${baseUrl}workorders/saveWOClaimType`,
-  fleetAssetSummaryReportDownload:`${baseUrl}report/downloadFleetAssetSummaryList`
+  fleetAssetSummaryReportDownload:`${baseUrl}report/downloadFleetAssetSummaryList`,
+  reportPdfDonwload:`${baseUrl}report/reportPdf`
 });

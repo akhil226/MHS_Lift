@@ -58,12 +58,11 @@
                 <ng-container *ngIf="isAdmin">
 
                   <input class="form__input" style="margin-left: 25px;" id="billingId" type="text" placeholder="Search for Shipping ID to Add"
-                  value="" aria-describedBy="Search billing id" [matAutocomplete]="auto"
-                   />
+                  value="" aria-describedBy="Search billing id" [matAutocomplete]="auto"/>
                 <mat-autocomplete #auto="matAutocomplete">
                   <ng-container>
                     <ng-container>
-                      <mat-option *ngFor="let bill of shippingIdDdl.data" [value]="bill.value" (onSelectionChange)="onBillingIdChange($event,bill.value)">
+                      <mat-option *ngFor="let bill of shippingIdDdl.data" [value]="bill.value" (onSelectionChange)="onBillingIdChange($event,bill.key)">
                         {{bill.value}}
                       </mat-option>
                     </ng-container>
@@ -88,7 +87,6 @@
         </div>
         </mat-card-content>
       </mat-card>
-
 
 
 
@@ -128,7 +126,7 @@
                   (click)="navToEquipmentDetails(data.rowData[col.field])"
                   class="color-red">{{data.rowData[col.field]}}</span>
               </ng-container>-->
-              <ng-container *ngSwitchCase="'more'"><span class="color-red" (click)="moreClaimTypeDetails(data.rowData)">MORE</span></ng-container>
+              <ng-container *ngSwitchCase="'more'"><span class=" btn-red" (click)="moreClaimTypeDetails(data.rowData)">MORE</span></ng-container>
               <ng-container *ngSwitchDefault><span class="table-data-ellipsis" [matTooltip]="data.rowData[col.field]">{{data.rowData[col.field] || '-'}}</span></ng-container>
            </ng-container>
           </td>

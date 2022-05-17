@@ -266,7 +266,7 @@ input[type=number] {
 
 }
 .fleet-asset-rows-table .scrolable-table {height: 510px;}
-.claim-type-rows-table .scrolable-table {height: 900px;}
+.claim-type-rows-table .scrolable-table {height: 850px;}
 .top-ten-repair-table .scrolable-table {height: 550px;}
 
 .show-curr-prev:not(.show-current) tbody tr:first-child {
@@ -275,10 +275,3 @@ input[type=number] {
 .show-curr-prev:not(.show-prev) tbody tr:last-child {
   display: none;
 }
-body { font-family: Helvetica }
-
-.c3-chart-texts .c3-texts .c3-text {
-  fill: #000000 !important;
-  border: 1px solid;
-
- }
