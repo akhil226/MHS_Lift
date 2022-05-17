@@ -34,7 +34,7 @@ export class BillingIdSearchComponent implements OnInit {
     if (event.source._selected) {
       this.input.setValue('');
       this.billingIdChange.emit(bill);
-      
+
     }
   }
 }

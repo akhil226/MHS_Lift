@@ -1,9 +1,9 @@
-
+import { filter, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { URLS } from './../shared/constants/url.constants';
-import { fleetAssetReq } from '../shared/interfaces/report';
+import { fleetAssetReq, fleetAssetRequest, fleetAssetSummary, fleetAssetSummaryResp } from '../shared/interfaces/report';
 import { FileDownloadService } from '../shared/services/file-download.service';
 @Injectable({
   providedIn: 'root'
@@ -42,10 +42,15 @@ export class ReportService {
   getFleetAssetSummary(payload: any): Observable<any> {
     return this.http.post<any>(URLS.getFleetAssetSummary, payload);
   }
-
-  getReportPdf(payload:any): void {
-    this.file.downloadFile(URLS.reportPdfDonwload, payload);
-  }
+  /*getFleetAssetSummary(data: fleetAssetRequest): Observable<fleetAssetSummaryResp> {
+    return this.http.post<any>(URLS.getFleetAssetSummary, data).pipe(
+      map(({ fleetAssetSummaryList, ...data }) => ({
+        ...data, fleetAssetSummaryList: fleetAssetSummaryList.map(({ amountLabor, amountOther,amountParts,amountTax,amountTotal, ...fleetAssetSummary }) => ({
+          ...fleetAssetSummary, amountLabor: amountLabor ? `$${amountLabor}` : `-`, amountOther: amountOther ? `$${amountOther}` : `-`,amountParts: amountParts ? `$${amountParts}` : `-`,
+          amountTax: amountTax ? `$${amountTax}` : `-`,amountTotal: amountTotal ? `$${amountTotal}` : `-`,
+        }))
+      })));
+  }*/
 
   downloadFleetAssetSummaryList(payload: any): void{
     const { fleetAssetSummaryReportDownload } = URLS;
