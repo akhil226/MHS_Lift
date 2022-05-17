@@ -1,7 +1,0 @@
-<app-header></app-header>
-<app-nav-bar></app-nav-bar>
-<div class="content-container">
-<ng-container *ngIf="showSubHeader$ | async as show"><app-sub-header [show]="show"></app-sub-header></ng-container>
-<router-outlet></router-outlet>
-</div>
-<app-footer></app-footer>
