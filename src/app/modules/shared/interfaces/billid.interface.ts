@@ -1,4 +1,5 @@
 export interface ShippingDetail {
+  [x: string]: any;
   company: string;
   location: string;
   shipTo: string;
