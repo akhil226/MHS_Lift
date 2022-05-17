@@ -14,10 +14,6 @@ export interface claimTypeWOList{
       workDone: string,
       workOrderDate: string,
       workOrderId: string,
-      invoiceAmountTotal: string,
-      invoiceID: string,
-      invoiceDate: string
-
 
 
 }
@@ -52,10 +48,7 @@ export interface serviceHistoryModal{
   workDone: string,
   workOrderDate: string,
   workOrderId: string,
-  parts:string,
-  invoiceAmountTotal: string,
-  invoiceID: string,
-  invoiceDate: string
+  parts:string
 
 }
 

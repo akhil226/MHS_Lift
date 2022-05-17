@@ -1,95 +1,94 @@
 
 <div class="grid-container" #contentToConvert1 id="contentToConvert1" >
-  <mat-card class="flexible-card margin-bottom-1 billingId">
-      <mat-card-content class="settings-page-card-content">
-     <div class="row with-gutter">
-      <div class="col-7">
-        <form action="" class="inline-form">
-        <div class="form__group">
-              <label class="form__label" for="select-default">Billing ID</label>
-              <ng-container *ngIf="!isAdmin; else adminBillingIdSearch">
-                <app-multiselect class="multiselect-red sub-head-multiselect" name="billingId"
-                  [dropdown]="billingIdDdl" [(ngModel)]="billingId" (ngModelChange)="changeBillingId()">
-                </app-multiselect>
-              </ng-container>
-              <ng-template #adminBillingIdSearch>
-                <app-billing-id-search (billingIdChange)="onAdminBillingIdChange($event)">
-                </app-billing-id-search>
-              </ng-template>
-            </div>
-            <div class="form__group" *ngIf="!!selectedAdminBillingId">
-              <label class="form__label" for="select-default">Selected Billing ID</label>
-              <mat-chip-list class="padding-adjust">
-                <mat-chip [matTooltip]="selectedAdminBillingId" class="color-red">{{selectedAdminBillingId}}
-                </mat-chip>
-              </mat-chip-list>
-            </div>
-            <div *ngIf="!billingId?.length && !selectedAdminBillingId" class="billingid-warning">Please select a Billing ID</div>
-        </form>
-        </div>
-
-        <div class="col-5 text-right"
-          *ngIf="userPrivilage[5]?.menuStatus === 'A' && userPrivilage[5]?.userMenuStatus === 'A'  && userPrivilage[5]?.adminMenuStatus === 'A' || userType">
-          <button routerLink="/dashboard/service-request" class="btn btn--primary"
-            *ngIf="show !== '/dashboard/service-request'">
-            <span class="material-icons">
-              settings
-            </span>
-            <span>Request Service</span>
-          </button>
-          <button routerLink="/dashboard/pm-request" class="btn btn--primary"
-            *ngIf="show !== '/dashboard/pm-request'">
-            <span class="material-icons">
-              build
-            </span>
-            <span>Request PM</span>
-          </button>
-        </div>
-      </div>
-
-        <div class="col-7">
-          <form action="" class="inline-form">
-          <div class="form__group">
-                <label class="form__label" for="select-default">Shipping ID</label>
-                <ng-container *ngIf="!isAdmin;">
-                  <app-multiselect class="multiselect-red sub-head-multiselect" name="shippingId"
-                    [dropdown]="shippingIdDdl" [(ngModel)]="shippingId" >
-                  </app-multiselect>
-                </ng-container>
-                <ng-container *ngIf="isAdmin">
-
-                  <input class="form__input" style="margin-left: 25px;" id="billingId" type="text" placeholder="Search for Shipping ID to Add"
-                  value="" aria-describedBy="Search billing id" [matAutocomplete]="auto"
-                   />
-                <mat-autocomplete #auto="matAutocomplete">
-                  <ng-container>
-                    <ng-container>
-                      <mat-option *ngFor="let bill of shippingIdDdl.data" [value]="bill.value" (onSelectionChange)="onBillingIdChange($event,bill.key)">
-                        {{bill.value}}
-                      </mat-option>
-                    </ng-container>
-                    <ng-template #noData>
-                      <mat-option>No Data Found</mat-option>
-                    </ng-template>
+      <mat-card class="flexible-card margin-bottom-1 billingId">
+          <mat-card-content class="settings-page-card-content">
+         <div class="row with-gutter">
+          <div class="col-7">
+            <form action="" class="inline-form">
+            <div class="form__group">
+                  <label class="form__label" for="select-default">Billing ID</label>
+                  <ng-container *ngIf="!isAdmin; else adminBillingIdSearch">
+                    <app-multiselect class="multiselect-red sub-head-multiselect" name="billingId"
+                      [dropdown]="billingIdDdl" [(ngModel)]="billingId" (ngModelChange)="changeBillingId()">
+                    </app-multiselect>
                   </ng-container>
-                </mat-autocomplete>
+                  <ng-template #adminBillingIdSearch>
+                    <app-billing-id-search (billingIdChange)="onAdminBillingIdChange($event)">
+                    </app-billing-id-search>
+                  </ng-template>
+                </div>
+                <div class="form__group" *ngIf="!!selectedAdminBillingId">
+                  <label class="form__label" for="select-default">Selected Billing ID</label>
+                  <mat-chip-list class="padding-adjust">
+                    <mat-chip [matTooltip]="selectedAdminBillingId" class="color-red">{{selectedAdminBillingId}}
+                    </mat-chip>
+                  </mat-chip-list>
+                </div>
+                <div *ngIf="!billingId?.length && !selectedAdminBillingId" class="billingid-warning">Please select a Billing ID</div>
+            </form>
+            </div>
 
-
-                </ng-container>
-              </div>
-              <div class="form__group" *ngIf="!!selectedAdminShipingId">
-                <label class="form__label" for="select-default">Selected Shipping ID</label>
-                <mat-chip-list class="padding-adjust">
-                  <mat-chip [matTooltip]="selectedAdminShipingId" class="color-red">{{selectedAdminShipingId}}
-                  </mat-chip>
-                </mat-chip-list>
-              </div>
-              <div *ngIf="!billingId?.length && !selectedAdminShipingId" class="billingid-warning">Please select a Shipping ID</div>
-          </form>
+            <div class="col-5 text-right"
+              *ngIf="userPrivilage[5]?.menuStatus === 'A' && userPrivilage[5]?.userMenuStatus === 'A'  && userPrivilage[5]?.adminMenuStatus === 'A' || userType">
+              <button routerLink="/dashboard/service-request" class="btn btn--primary"
+                *ngIf="show !== '/dashboard/service-request'">
+                <span class="material-icons">
+                  settings
+                </span>
+                <span>Request Service</span>
+              </button>
+              <button routerLink="/dashboard/pm-request" class="btn btn--primary"
+                *ngIf="show !== '/dashboard/pm-request'">
+                <span class="material-icons">
+                  build
+                </span>
+                <span>Request PM</span>
+              </button>
+            </div>
           </div>
-          </mat-card-content>
-        </mat-card>
 
+            <div class="col-7">
+              <form action="" class="inline-form">
+              <div class="form__group">
+                    <label class="form__label" for="select-default">Shipping ID</label>
+                    <ng-container *ngIf="!isAdmin;">
+                      <app-multiselect class="multiselect-red sub-head-multiselect" name="shippingId"
+                        [dropdown]="shippingIdDdl" [(ngModel)]="shippingId" >
+                      </app-multiselect>
+                    </ng-container>
+                    <ng-container *ngIf="isAdmin">
+
+                      <input class="form__input" style="margin-left: 25px;" id="billingId" type="text" placeholder="Search for Shipping ID to Add"
+                      value="" aria-describedBy="Search billing id" [matAutocomplete]="auto"
+                       />
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <ng-container>
+                        <ng-container>
+                          <mat-option *ngFor="let bill of shippingIdDdl.data" [value]="bill.value" (onSelectionChange)="onBillingIdChange($event,bill.value)">
+                            {{bill.value}}
+                          </mat-option>
+                        </ng-container>
+                        <ng-template #noData>
+                          <mat-option>No Data Found</mat-option>
+                        </ng-template>
+                      </ng-container>
+                    </mat-autocomplete>
+
+
+                    </ng-container>
+                  </div>
+                  <div class="form__group" *ngIf="!!selectedAdminShipingId">
+                    <label class="form__label" for="select-default">Selected Shipping ID</label>
+                    <mat-chip-list class="padding-adjust">
+                      <mat-chip [matTooltip]="selectedAdminShipingId" class="color-red">{{selectedAdminShipingId}}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+                  <div *ngIf="!billingId?.length && !selectedAdminShipingId" class="billingid-warning">Please select a Shipping ID</div>
+              </form>
+              </div>
+              </mat-card-content>
+            </mat-card>
 
         <mat-grid-list cols="2" rowHeight="50px" >
         <mat-grid-tile colspan="2" rowspan="4" >
@@ -155,12 +154,12 @@
                       </div>
                 </div>
               </div>
-               <!-- <button (click)="downloadPDF()" class="btn btn--primary">
+              <!--<button (click)="generatePdf(contentToConvert1)" class="btn btn--primary">
                 <span class="material-icons ">
                   download
                 </span>
                 <span>Download As PDF</span>
-              </button> -->
+              </button>-->
             </mat-card-content>
           </mat-card>
         </mat-grid-tile>
@@ -361,13 +360,18 @@
               </div>
             </div>
             <div class="row align-items-center">
-              <div class="col-6"> <div id="top10TotalsGraph" #top10TotalsGraph></div> </div>
+              <div class="col-6"> <div id="top10TotalsGraph"  #top10TotalsGraph  style="max-width: 500px; border: silver 1px solid; padding-bottom: 6px;" ></div> </div>
               <div class="col-6">
                 <!-- *ngIf="total && total !== '0'" -->
                   <!-- <div class="total">{{total}}</div>
                   <div class="total-label">{{type}}</div> -->
                   <ul class="graph-legends">
-                      <li (mouseover)="legendMouserover(legent[0])" (mouseout)="legendMouseOut()" *ngFor="let legent of pieChartData; let i = index"><span [style.background-color]="donutChartColors[legent[0]]" class="color"></span><span class="label">{{legent[0]}}</span>  <span class="value">{{calculatePercentage(legent[1]) | percent}}</span></li>
+                      <li (mouseover)="legendMouserover(legent[0])" (mouseout)="legendMouseOut()"
+                      *ngFor="let legent of pieChartData; let i = index">
+                      <span [style.background-color]="donutChartColors[legent[0]]" class="color"></span>
+                      <span class="label">{{legent[0]}}</span>  <span class="value">{{calculatePercentage(legent[1]) | percent}}</span>
+
+                    </li>
                   </ul>
               </div>
               <!-- <div class="col-8" >
@@ -387,7 +391,7 @@
           </mat-card-header> -->
           <mat-card-content class="top-ten-repair-table settings-page-card-content">
 
-           <ng-container *ngIf="(topAssetRows | async) as topAssetRows; else top10AssetLoader">
+           <ng-container *ngIf="topAssetRows as topAssetRows; else top10AssetLoader">
             <ng-container *ngIf="topAssetRows?.length;else notopAssetData">
             <app-table [columnDef]="topAssetColumns" [rowData]="topAssetRows" [settings]="topAssetSettings"
             [expColumnDef]="topAssetExpColumns">
@@ -477,6 +481,36 @@
           </div>
         </mat-card>
       </mat-grid-tile>
+
+
+    <!-- <h1 class="mat-h1">Dashboard</h1> -->
+
+    <!-- <mat-grid-list cols="12" rowHeight="85px"
+      *ngIf="userPrivilage[6]?.menuStatus === 'A' && userPrivilage[6]?.userMenuStatus === 'A'  && userPrivilage[6]?.adminMenuStatus === 'A' || isAdmin">
+      <mat-grid-tile colspan="7" rowspan="5">
+        <mat-card class="flexible-card">
+          <mat-card-header class="reduced-padding align-items-center">
+            <mat-card-title>
+              Work Order Status
+            </mat-card-title>
+            <app-multiselect *ngIf="(locationDdl | async) as locationList" name="WoStatusGraphlocations"
+              class="card-header-dropdown search-multiselect" [dropdown]="locationList"
+              [(ngModel)]="woStatusGraphlocations" (ngModelChange)="onWorkOrderStatusChange()"></app-multiselect>
+            <app-multiselect name="selectedWoStatusGraphId" class="card-header-dropdown margin-right-1 margin-left-1"
+              [dropdown]="woStatusDd" [(ngModel)]="selectedWoStatusGraphId" (ngModelChange)="onWorkOrderStatusChange()">
+            </app-multiselect>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+            <ng-container *ngIf="(workOrderGraph | async) as workOrderGraph; else workOrderGraphLoader">
+              <app-work-order-status-graph [workOrderStatus]="workOrderGraph"></app-work-order-status-graph>
+            </ng-container>
+            <ng-template #workOrderGraphLoader>
+              <ng-container *ngTemplateOutlet="loader"></ng-container>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      </mat-grid-list> -->
       <ng-template #loader>
         <div class="d-flex allign-v-centre">
           <div class="overlay"></div>

@@ -59,10 +59,8 @@ export class ClaimTypeComponent implements OnInit  {
   endDate:Date | string ='';
   fromDate:Date | string ='';
   toDate:Date | string ='';
-  shipId:any[]=[];
+  shipId='';
   selectedShipToRows: ShippingDetail[] = [];
-  selectedAdminShipToRows: any[]=[];
-  selectedAdminShipingId: any;
   shippingIdMetaData: BillingId[]=[] ;
   loader = false;
   firstName: string = this.user.getUserDetails()?.userFName || '';
@@ -80,6 +78,8 @@ export class ClaimTypeComponent implements OnInit  {
   offset: PagionationOffset = { limitList: DEFAULT_ROWS_PER_PAGE, offsetList: 0 };
   searchInput: Array<SearchInput> = new claimTypeSearch().tab as Array<SearchInput>;
   private unSubscribe$ = new Subject();
+  selectedAdminShipToRows: any[]=[];
+  selectedAdminShipingId: any;
   constructor(
     private loaderService: LoaderService,
     private billingIdService: BillingIdService,
@@ -95,7 +95,8 @@ export class ClaimTypeComponent implements OnInit  {
 
 
   ngOnInit(): void {
-    this.emitShippingId();
+    // this.getShippingId();
+
     const userBillIds = this.user.getUserDetails()?.userBillIds || [];
     this.getShippingDl(userBillIds);
     this.isAdmin = this.user.getUserDetails()?.userType === AUTHKEY.ADMIN;
@@ -117,20 +118,16 @@ export class ClaimTypeComponent implements OnInit  {
    if(!this.isAdmin){
     this.billingIdService.getBillingId().subscribe(res=>{
       this.billingId = res;
-      //console.log(this.billingId,"??>?");
+      console.log(this.billingId,"??>?");
       this.getShippingDl(userBillIds);
       //console.log('billing ID changed')
     });
    }
 
   }
-  emitShippingId(){
-    const data = localStorage.getItem("SELECTED_SHIPPING_ID");
-    if (data) {
-      return JSON.parse(data);
-    }
-
-  }
+    /*onDateSelected(){
+      this._initData();
+  }*/
 
 getShippingDl(userBillIds: any[]){
   this.selectedShipToRows = [];
@@ -154,14 +151,56 @@ getShippingDl(userBillIds: any[]){
       data:  this.selectedShipToRows?.map(({ shipTo, company, location }) =>
       ({ key: shipTo, value: `${shipTo} | ${company} | ${location}` }))
     };
-    //console.log(this.selectedShipToRows,"???>>>>><<<<>?????",);
+    console.log(this.selectedShipToRows,"???>>>>><<<<>?????",);
 }
 
 _initData(): void {
+  // this.getShippingId();
   this.getClaimTypeList();
   this.getClaimType();
  }
 
+//  getShippingId(){
+//   const shipIdReq = {
+//     billingId: this.billingId,
+//   }
+//   console.log(shipIdReq,"jshj",this.billingId);
+
+//   this.claimTypeData.getAllBillingId({billingId:'13685'}).subscribe((response:any) => {
+
+//     this.shippingIdMetaData = response;
+//     console.log(response);
+//     let shipData = response.billIds[0].details;
+
+//     this.shippingIdDdl.data.push(shipData);
+//     console.log(this.shippingIdDdl.data,"??????????????",this.billingIdDdl.data);
+      /*this.selectedShipToRows = [];
+      if (this.shippingIdMetaData.returnCode === 0) {
+        const shippingList: DropDownData[] = [];
+          this.shippingIdMetaData.billIds.forEach(((data: { shipTo: string; location: any; billTo: any; billToAddress: any; billToName: any; details: any; }) => {
+            shippingList.push({ key: data.shipTo, value: data.location });
+          this.claimTypeData.getSelectedShipIdToCreateRequest().forEach(element => {
+            if (data.shipTo === element) {
+              this.selectedShipToRows.push({
+                billTo: data.billTo,
+                billToAddress: data.billToAddress,
+                billToName: data.billToName,
+                details: data.details
+
+              });
+            }
+          });
+        }),
+        this.shipIdDdl = { ...this.shipIdDdl, data: [...shippingList] });
+        if (this.selectedShipToRows.length > 1) {
+          this.claimTypeData.setSelectedShipIdToCreateRequest([]);
+        }
+      }*/
+//   }, error =>{
+//     console.log(error);
+//     this.loaderService.hide();
+//   })
+// }
  public getClaimTypeList() {
 
   this.startDate=new Date(this.dateObj.startDate);
@@ -183,8 +222,10 @@ _initData(): void {
         response.claimTypeList[i].claimCode = '';
       }
     }
+    //console.log(response.claimTypeList);
     this.claimType = response;
     this.claimtypeRows = of(response.claimTypeList);
+    //console.log(response);
     //this.loaderService.hide();
   }, error =>{
     console.log(error);
@@ -224,9 +265,27 @@ private _resetSearchForm(): void {
 }
 
 
-
+private _validateSearchForm(value: claimTypeListSearch): boolean {
+  const isValid = Object.values(value).some(item => item ?? (!Array.isArray(item) || item.length));
+  if (!isValid) {
+    this.notification.showNotification(NOTIFICATION_MSG.searchFormNotValid);
+    return false;
+  }
+   if(value.toDate && !value.fromDate){
+    this.notification.showNotification(NOTIFICATION_MSG.yearNotValid);
+      return false;
+   }
+  if (value.toDate && value.fromDate) {
+    if (this.utlilityService.checkFromGreaterThanToDates(value.fromDate, value.toDate)) {
+      this.notification.showNotification(NOTIFICATION_MSG.dateValidation);
+      return false;
+    }
+  }
+  return true;
+}
 onSearch(value:any){
   this.dateObj=value;
+  console.log(this.dateObj);
   this._initData();
 }
 
@@ -239,15 +298,13 @@ onSearchClear(): void {
 }
 changeBillingId(): void {
   this.billingIdService.emitBillingId(this.billingId);
-  const stringifiedData = JSON.stringify(this.selectedAdminShipingId);
-    localStorage.setItem('SELECTED_SHIPPING_ID', stringifiedData);
 }
 changeShippingingId(){
-//console.log("ghjkl");
+console.log("ghjkl");
 
 }
 onChnage(event:any){
-  //console.log(event,":}}");
+  console.log(event,":}}");
 
 }
 onAdminBillingIdChange(bill: BillId): void {
@@ -256,12 +313,11 @@ onAdminBillingIdChange(bill: BillId): void {
   const billingId = [billTo];
   this.onAdminShippingIdChange(bill)
   this.billingIdService.emitBillingId(billingId, this.selectedAdminBillingId);
-
 }
 onAdminShippingIdChange(bill: any): void {
   this.selectedAdminShipToRows=[];
   this.shippingIdDdl.data =[];
-  //console.log(bill,"%%%%%%%%%%%%");
+  console.log(bill,"%%%%%%%%%%%%");
   if(!!bill.details){
     let shipDetails = bill.details.forEach((element: any) => {
       if (element!=null) {
@@ -272,7 +328,7 @@ onAdminShippingIdChange(bill: any): void {
         });
       }
     });
-    //console.log(this.selectedAdminShipToRows,"::::::::::::");
+    console.log(this.selectedAdminShipToRows,"::::::::::::");
 
   }
   const { shipTo, company, location } =bill.details;
@@ -284,16 +340,14 @@ onAdminShippingIdChange(bill: any): void {
     ({ key: shipTo, value: `${shipTo} | ${company} | ${location}` }))
   };
   const billingId = [shipTo];
-  //console.log(this.shippingIdDdl,"????");
+  console.log(this.shippingIdDdl,"????");
 }
 onBillingIdChange(event: any, bill: any): void {
   if (event.source._selected) {
     this.selectedAdminShipingId = event.source.value;
   }
-  this.shipId=bill;
-  const stringifiedData = JSON.stringify(this.selectedAdminShipingId);
-  localStorage.setItem('SELECTED_SHIPPING_ID', stringifiedData);
 }
+
 public moreClaimTypeDetails(item: claimTypeWOList): Observable<any> {
   const dialogRef = this.dialog.open(ServicehistoryComponent, {
     width: '100%',
