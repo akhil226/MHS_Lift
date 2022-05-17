@@ -177,7 +177,7 @@ export const TOPASSET_TOTALS_COLUMNS: ColumnDefs[] = [
 
  export const TOPASSET_LIST_COLUMNS: ColumnDefs[]=[
    {title:'SERIAL NUMBER' , field:'serialNo' ,sortable:false},
-   {title:'UNIT' , field:'' ,sortable:false},
+   {title:'UNIT' , field:'assetNo' ,sortable:false},
    {title:'MAKE' , field:'equipMake' ,sortable:false},
    {title:'MODEL' , field:'equipModel' ,sortable:false},
    //{title:'MODEL TYPE' , field:'assetNo' ,sortable:false},
@@ -189,16 +189,18 @@ export const TOPASSET_TOTALS_COLUMNS: ColumnDefs[] = [
    ]
 
    export const    TOPASSET_LIST_EXP_COLUMNS: ColumnDefs[]=[
-    {title:'SERIAL NUMBER' , field:'serialNo' ,sortable:true},
-    {title:'LOCATION' , field:'' ,sortable:false},
-    {title:'HOURS' , field:'' ,sortable:false},
-    {title:'MAKE' , field:'equipMake' ,sortable:true},
-    {title:'MODEL' , field:'equipModel' ,sortable:true},
-    {title:'MODEL TYPE' , field:'assetNo' ,sortable:true},
-    {title:'MODEL YEAR' , field:'equipYear' ,sortable:true},
-    {title:'TOTAL SPEND' , field:'totalSpend' ,sortable:true},
-    {title:'LOCATION SPEND' , field:'locationSpend' ,sortable:true},
-    {title:'% OF LOCATION SPEND' , field:'locationPercentage' ,sortable:true}
+    // {title:'SERIAL NUMBER' , field:'serialNo' ,sortable:true},
+    {title:'LOCATION' , field:'location' ,sortable:false},
+    {title:'HOURS' , field:'hr' ,sortable:false},
+    // {title:'MAKE' , field:'equipMake' ,sortable:true},
+    // {title:'MODEL' , field:'equipModel' ,sortable:true},
+    // {title:'MODEL TYPE' , field:'assetNo' ,sortable:true},
+    // {title:'MODEL YEAR' , field:'equipYear' ,sortable:true},
+    // {title:'TOTAL SPEND' , field:'totalSpend' ,sortable:true},
+    // {title:'LOCATION SPEND' , field:'locationSpend' ,sortable:true},
+    // {title:'% OF LOCATION SPEND' , field:'locationPercentage' ,sortable:true},
+    // {title:'LOCATION' , field:'location' ,sortable:true},
+
 
     ]
     export const   FLEET_ASSET_SUMMARY_COLUMNS: ColumnDefs[]=[
@@ -223,20 +225,20 @@ export const TOPASSET_TOTALS_COLUMNS: ColumnDefs[] = [
       {title:'AGE' , field:'equipAge' ,sortable:false},*/
     ]
     export const   FLEET_ASSET_SUMMARY_EXP_COLUMNS: ColumnDefs[]=[
-      {title:'Asset' , field:'assetNo' ,sortable:false},
-      {title:'Serial' , field:'serialNo' ,sortable:false},
-      {title:'Make' , field:'equipMake' ,sortable:false},
-      {title:'Model' , field:'equipModel' ,sortable:false},
-      {title:'Year' , field:'equipYear' ,sortable:false},
-      {title:'First Ord Date' , field:'firstOrderDate' ,sortable:false},
-      {title:'Last Ord Date' , field:'lastOrderDate' ,sortable:false},
-      {title:'First Meter' , field:'firstMeter' ,sortable:false},
-      {title:'Last Meter' , field:'lastMeter' ,sortable:false},
+      // {title:'Asset' , field:'assetNo' ,sortable:false},
+      // {title:'Serial' , field:'serialNo' ,sortable:false},
+      // {title:'Make' , field:'equipMake' ,sortable:false},
+      // {title:'Model' , field:'equipModel' ,sortable:false},
+      // {title:'Year' , field:'equipYear' ,sortable:false},
+      // {title:'First Ord Date' , field:'firstOrderDate' ,sortable:false},
+      // {title:'Last Ord Date' , field:'lastOrderDate' ,sortable:false},
+      // {title:'First Meter' , field:'firstMeter' ,sortable:false},
+      // {title:'Last Meter' , field:'lastMeter' ,sortable:false},
       {title:'Amount Parts' , field:'amountParts' ,sortable:false},
       {title:'Amount Labour' , field:'amountLabor' ,sortable:false},
       {title:'Amount Other' , field:'amountOther' ,sortable:false},
       {title:'Amount Tax' , field:'amountTax' ,sortable:false},
-      {title:'Amount Total' , field:'amountTotal' ,sortable:false},
+      //{title:'Amount Total' , field:'amountTotal' ,sortable:false},
       {title:'Regular Repair',field:'',sortable:false},
       {title:'PM',field:'',sortable:false},
       {title:'Wheels/Tires',field:'',sortable:false},
@@ -251,6 +253,8 @@ export const TOPASSET_TOTALS_COLUMNS: ColumnDefs[] = [
     ]
 
     export const   CLAIMTYPE_WO_LIST_COLUMNS: ColumnDefs[]=[
+      {title:'BILLTo #' , field:'billTo' ,sortable:false},
+      {title:'SHIPTO #' , field:'shipTo' ,sortable:false},
       {title:'SERIAL #' , field:'equipSerialNo' ,sortable:false},
       {title:'UNIT #' , field:'unitNo' ,sortable:false},
       {title:'Year' , field:'equipYear' ,sortable:false},
@@ -259,10 +263,10 @@ export const TOPASSET_TOTALS_COLUMNS: ColumnDefs[] = [
       {title:'WO #' , field:'workOrderId' ,sortable:true},
       {title:'WO DATE' , field:'workOrderDate' ,sortable:true},
       {title:'TECHNICIAN' , field:'technicianName' ,sortable:true},
-      {title:'PROBLEM' , field:'custProblem' ,sortable:true},
-      {title:'DIAGNOSIS' , field:'technicalDiagnosis' ,sortable:true},
-      {title:'WORK DONE' , field:'workDone' ,sortable:true},
+      // {title:'PROBLEM' , field:'custProblem' ,sortable:true},
+      // {title:'DIAGNOSIS' , field:'technicalDiagnosis' ,sortable:true},
+      // {title:'WORK DONE' , field:'workDone' ,sortable:true},
+      // {title:'PARTS' , field:'' ,sortable:true},
       {title:'MORE' , field:'more' ,sortable:true},
-      {title:'PARTS' , field:'' ,sortable:true},
       {title:'CLAIM TYPE' , field:'claimCode' ,sortable:false},
     ]

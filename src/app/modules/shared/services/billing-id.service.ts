@@ -29,9 +29,9 @@ export class BillingIdService {
   }
 
 
-  restoreSelectedBillingId(): { id: Array<string> | null, name: string ,shippingId:Array<string> | null} {
+  restoreSelectedBillingId(): { id: Array<string> | null, name: string} {
     if (this.selectedBillingId) {
-      return { id: this.selectedBillingId, name: this.selectedBillingIdName, shippingId:this.selectedShipId };
+      return { id: this.selectedBillingId, name: this.selectedBillingIdName };
     }
     return this._getPersistedBillingIds();
   }
@@ -45,12 +45,12 @@ export class BillingIdService {
     const stringifiedData = JSON.stringify(data);
     localStorage.setItem(BILLING_KEY, stringifiedData);
   }
-  private _getPersistedBillingIds(): { id: Array<string> | null, name: string , shippingId: Array<string> | null} {
+  private _getPersistedBillingIds(): { id: Array<string> | null, name: string} {
     const data = localStorage.getItem(BILLING_KEY);
     if (data) {
       return JSON.parse(data);
     }
-    return { id: null, name: '' ,shippingId: null};
+    return { id: null, name: ''};
   }
   private _clearPersistedBillingIds(): void {
     localStorage.removeItem(BILLING_KEY);
