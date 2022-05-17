@@ -1,0 +1,190 @@
+<div class="grid-container">
+  <div class="custom-flexible-grid">
+    <mat-card class="flexible-card">
+      <mat-card-content class="dashboard-card-content">
+        <div class="row with-gutter">
+          <div class="col-7 equip-details-sub-head ">
+            {{serialNuber}}
+          </div>
+          <div class="col-5 text-right" *ngIf="userPrivilage[5]?.menuStatus === 'A' && userPrivilage[5]?.userMenuStatus === 'A'  && userPrivilage[5]?.adminMenuStatus === 'A' || userType">
+            <button (click)="goToCreateRequest(serialNuber,'Request Service')" class="btn btn--primary">
+              <span class="material-icons">
+                settings
+              </span>
+              <span>Request Service</span>
+            </button>
+            <button (click)="goToCreateRequest(serialNuber,'PM')" class="btn btn--primary">
+              <span class="material-icons">
+                build
+              </span>
+              <span>Request PM</span>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-container *ngIf="!!equipmentDetails?.equipmentList?.length">
+    <div class="custom-flexible-grid">
+      <mat-card class="flexible-card">
+        <mat-card-header>
+          <mat-card-title>
+            Equipment Details
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content" *ngIf="!!equipmentDetails?.equipmentList?.length">
+          <div class="row">
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Serial #</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].equipSerialNo || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Unit #</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].unitNo || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Year</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].equipYear || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Make</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].equipMake || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Model</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].equipModel || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Status</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].equipStatus || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Srv Agr</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].serviceAgmt || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Last Meter</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].equipCMHR || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Ship To</label>
+                <div class="form_values">{{equipmentDetails.equipmentList[0].location || '-'}}</div>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="form__group">
+                <label class="form__label form_value_label">Ship To/Bill To #</label>
+                <div class="form_values">
+                  {{equipmentDetails.equipmentList[0].shipTo  || '-'}}/{{equipmentDetails.equipmentList[0].billTo || '-'}}</div>
+              </div>
+            </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="custom-flexible-grid">
+      <mat-card class="flexible-card">
+        <mat-card-header>
+          <mat-card-title>
+            Open Jobs
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content" *ngIf="!!openJobsRows?.length">
+          <app-table [columnDef]="openJobsColumns" [rowData]="openJobsRows" [settings]="openJobsSettings">
+            <ng-template template="header" let-columns>
+              <span [matTooltip]="columns.title">{{columns.title}}</span>
+              <!-- <ng-container>{{columns.title}}</ng-container> -->
+            </ng-template>
+            <ng-template template="body" let-data>
+              <td *ngFor="let col of data.columns">
+                <ng-container [ngSwitch]="col.field">
+                  <!-- <ng-container *ngSwitchCase="'equipSerialNo'"><span
+                      class="color-red">{{data.rowData[col.field]}}</span>
+                  </ng-container> -->
+                  <ng-container *ngSwitchCase="'workOrderId'"><a (click)="openWOPdf(data.rowData.wopdfPath)"><span class="color-red">{{data.rowData[col.field]}}</span></a>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'workOrderStatus'">
+                    <mat-chip-list>
+                      <mat-chip
+                        [ngStyle]="{backgroundColor: woStatusStyle['statusBgColor_'+data.rowData.workOrderStatusCode] ||'#e0e0e0', color:woStatusStyle['statusColor_'+data.rowData.workOrderStatusCode]||'#0a0a0a' }" [matTooltip]="data.rowData[col.field]">
+                        {{data.rowData[col.field]}}</mat-chip>
+                    </mat-chip-list>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>{{data.rowData[col.field] || '-'}}</ng-container>
+                </ng-container>
+              </td>
+            </ng-template>
+          </app-table>
+        </mat-card-content>
+        <mat-card-content class="dashboard-card-content" *ngIf="!!!openJobsRows?.length">
+          <div class="total-label no-data-div">No data available</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="custom-flexible-grid">
+      <mat-card class="flexible-card">
+        <mat-card-header>
+          <mat-card-title>
+            Service History
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content" *ngIf="!!serviceHistoryRows?.length">
+          <app-table [columnDef]="serviceHistoryColumns" [rowData]="serviceHistoryRows"
+            [settings]="serviceHistorySettings">
+            <ng-template template="header" let-columns>
+              <span [matTooltip]="columns.title">{{columns.title}}</span>
+            </ng-template>
+            <ng-template template="body" let-data>
+              <td *ngFor="let col of data.columns">
+                <ng-container [ngSwitch]="col.field">
+                  <ng-container *ngSwitchCase="'more'"><span (click)="_showServiceHistory(data.rowData)"
+                      class="color-red">{{data.rowData[col.field]}}</span>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'parts'">
+                    <ng-container *ngIf="data.rowData[col.field].length !== 0"> <span>{{data.rowData[col.field][0]?.partsName}}</span></ng-container>
+                    <ng-container *ngIf="data.rowData[col.field].length === 0"> <span>-</span></ng-container>
+                </ng-container>
+                  <ng-container *ngSwitchCase="'workOrderId'"><a (click)="openWOPdf(data.rowData.wopdfPath)"><span class="color-red">{{data.rowData[col.field]}}</span></a>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'status'">
+                    <mat-chip-list>
+                      <mat-chip
+                        [ngStyle]="{backgroundColor: woStatusStyle['statusBgColor_'+data.rowData.statusCode] ||'#e0e0e0', color:woStatusStyle['statusColor_'+data.rowData.statusCode]||'#0a0a0a' }">
+                        {{data.rowData[col.field]}}</mat-chip>
+                    </mat-chip-list>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    <span class="table-data-ellipsis" [matTooltip]="data.rowData[col.field]">
+                      {{data.rowData[col.field] || '-'}}
+                    </span>
+                  </ng-container>
+                </ng-container>
+              </td>
+            </ng-template>
+          </app-table>
+        </mat-card-content>
+        <mat-card-content class="dashboard-card-content" *ngIf="!!!serviceHistoryRows?.length">
+          <div class="total-label no-data-div">No data available</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+</div>

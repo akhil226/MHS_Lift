@@ -1,0 +1,284 @@
+@import 'scss/theme';
+@import 'scss/fonts';
+@import 'scss/grid';
+@import 'scss/forms';
+@import 'scss/pagination';
+@import 'scss/charts';
+@import 'scss/settings';
+@import "../node_modules/c3/c3.min.css";
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'proxima_novaregular', "Helvetica Neue", sans-serif;
+  &.mat-typography {
+      font-family: 'proxima_novaregular', "Helvetica Neue", sans-serif;
+  }
+}
+body {
+  background: #DFE8F3;
+}
+* {
+  box-sizing: border-box;
+}
+app-root {
+  width: 100%;
+}
+.dashboard-card-content {
+  text-align: left;
+}
+::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: #912728;
+}
+
+.color-red{
+  color: #912728;
+  cursor: pointer;
+  word-break: break-all;
+  -webkit-hyphens:none;
+  -moz-hyphens: none;
+  hyphens: none;
+}
+/** Table Style */
+.table-view {
+  width: 100%;
+  text-align: left;
+  border: solid 1px #e1e7ec;
+  border-collapse: collapse;
+  th {
+    border-bottom: solid 1px #e1e7ec;
+    color: #5f6b7a;
+    font-size: 14px;
+    font-weight: normal;
+    text-transform: uppercase;
+    padding: 1rem;
+    max-width: 110px;
+    // white-space: nowrap;
+    &:last-child {
+      border-right: solid 1px #e1e7ec;
+    }
+    .table-header-label-container {
+      display: flex;
+      max-width: 100%;
+    }
+    .table-header-label {
+      flex: auto;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-break: break-all; word-wrap: break-word;
+    }
+  }
+  thead {
+    background-color: #f8f9fa;
+  }
+  .sort-button {
+    // float: right;
+    display:inline-flex;
+    vertical-align: top;
+    flex-direction: column;
+    margin-top: -1px;
+    cursor: pointer;
+    .material-icons {
+      height: 0.5rem;
+      position: relative;
+      top: -0.3rem;
+      color: #8895a7;
+    }
+  }
+  tbody {
+    td {
+      padding: 0.75rem 1rem;
+      border-top: solid 1px #e1e7ec;
+      &:last-child {
+        border-right: solid 1px #e1e7ec;
+      }
+    }
+    .expand-button {
+      cursor: pointer;
+    }
+    .expandable {
+      /*
+      &:visible + tr td {
+        border-top: 0;
+      }
+      */
+      td  {
+        border: 0;
+        padding: 0 1rem 1rem 1rem;
+        .expandable-container {
+          border-radius: 4px;
+          padding: 1rem;
+          border: solid 1px #cfd6de;
+        }
+      }
+    }
+    .selected-row td {
+        background: #fee4e5;
+        border-bottom: solid 1px #c74f4f;
+        border-top: solid 1px #c74f4f;
+        &:first-child {
+          border-left: solid 1px #c74f4f;
+        }
+        &:last-child {
+          border-right: solid 1px #c74f4f;
+        }
+    }
+  }
+}
+/** grid styles */
+.custom-flexible-grid {
+  width: 100%;
+  display: flex;
+  .flexible-card {
+    flex: 1;
+    margin:0.5rem 1rem;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+}
+.grid-container {
+  margin: 16px;
+}
+mat-card.mat-card {
+  padding: 1rem 1.8rem;
+  .mat-card-header-text {
+    margin: 0;
+  }
+}
+.flexible-card.sub-card {
+  padding: 0;
+  .mat-card-header .mat-card-title {
+    font-size: 16px;
+    margin: 0;
+  }
+  .mat-card-header {
+    padding: 20px;
+    border-bottom: solid 1px #e1e7ec;
+  }
+  .mat-card-content {
+    padding: 20px;
+  }
+}
+.flexible-card.sub-card-2 {
+  .mat-card-header .mat-card-title {
+    font-size: 20px;
+    margin: 0;
+  }
+  .mat-card-header {
+    padding: 0 0 14px 0;
+    margin-bottom: 1rem;
+    border-bottom: solid 1px #e1e7ec;
+  }
+  .mat-card-content {
+   //padding: 20px;
+  }
+
+
+}
+
+.mat-standard-chip {
+  display: block !important;
+  margin: 0px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 6rem !important;
+  text-overflow: ellipsis;
+}
+
+/* html {
+  background: url(../src/assets/temp.png);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: 50% -54px;
+  body {
+    opacity: 0.5;
+  }
+} */
+mat-card-header.mat-card-header {
+  border-bottom: 1px solid #e1e7ec;
+  padding: 1em 0;
+  .mat-card-title {
+    margin: 0;
+    font-size: 18px;
+  }
+  &.reduced-padding {
+    padding: 0.25rem 0;
+    .mat-card-header-text {
+      flex: auto;
+    }
+  }
+}
+.search-equipment-list {
+  margin-top: 1rem;
+  display: block;
+  .mat-card {
+    border:1px solid #e1e7ec;
+    box-shadow:0 0 0 transparent;
+  }
+}
+app-service-history, app-reset-password, app-shipping-id-selection, app-kpi-filter, app-forgot-password {
+  position: relative;
+  display: block;
+  padding-top: 3rem;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.table-data-ellipsis {
+  overflow: hidden;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 110px;
+}
+
+.no-data-div{
+  text-align: center;
+  padding-top: 1rem;
+}
+.flexible-card.sub-card-3 {
+  .custom-header .custom-title {
+    font-size: 20px;
+    margin: 0;
+  }
+  .custom-header{
+    padding: 0 0 14px 0;
+    margin-bottom: 1rem;
+    border-bottom: solid 1px #e1e7ec;
+  }
+
+}
+.fleet-asset-rows-table .scrolable-table {height: 510px;}
+.claim-type-rows-table .scrolable-table {height: 900px;}
+.top-ten-repair-table .scrolable-table {height: 550px;}
+
+.show-curr-prev:not(.show-current) tbody tr:first-child {
+  display: none;
+}
+.show-curr-prev:not(.show-prev) tbody tr:last-child {
+  display: none;
+}
+body { font-family: Helvetica }
+
+.c3-chart-texts .c3-texts .c3-text {
+  fill: #000000 !important;
+  border: 1px solid;
+
+ }

@@ -1,0 +1,61 @@
+<mat-toolbar>
+  <nav class="main-navigation">
+    <ul color="secondary">
+      <li><a routerLink="/dashboard" routerLinkActive="active">
+          <span class="icomoon-dashboard"></span>
+          Dashboard</a></li>
+      <li>
+        <a routerLink="/equipments" routerLinkActive="active">
+          <span class="icomoon-equipment"></span>
+          Equipment List</a>
+      </li>
+      <li *ngIf="userPrivilage[2]?.menuStatus === 'A' && userPrivilage[2]?.adminMenuStatus === 'A' || isAdmin">
+        <a routerLink="/work-orders" routerLinkActive="active"><span class="icomoon-work-order"></span>
+          Work Order List</a>
+        <!-- <a routerLink="/work-orders" routerLinkActive="active"><span color="secondary" class="image-icons"><img
+                src="./assets/icons/work-order.svg"></span>Work Order List</a> -->
+      </li>
+      <li *ngIf="userPrivilage[3]?.menuStatus === 'A' && userPrivilage[3]?.adminMenuStatus === 'A' || isAdmin">
+        <a routerLink="/preventive-maintenance" routerLinkActive="active"><span
+            class="icomoon-preventive-maintenance"></span>
+          Preventive Maintenance
+          List</a>
+        <!-- <a routerLink="/preventive-maintenance" routerLinkActive="active"><span color="secondary"
+            class="image-icons"><img src="./assets/icons/preventive-maintenance.svg"></span>Preventive Maintenance
+          List</a> -->
+      </li>
+      <li *ngIf="userPrivilage[4]?.menuStatus === 'A' && userPrivilage[4]?.adminMenuStatus === 'A' || isAdmin">
+        <a routerLink="/invoices" routerLinkActive="active"><span class="icomoon-invoice"></span>
+          Invoice List</a>
+        <!-- <a routerLink="/invoices" routerLinkActive="active"><span color="secondary" class="image-icons"><img
+                src="./assets/icons/invoice.svg"></span>Invoice List</a> -->
+      </li>
+      <li >
+        <a routerLink="/report" routerLinkActive="active">
+          <span class="icomoon-invoice"></span>
+          Reports</a>
+      </li>
+      <!--*ngIf="result"-->
+      <li>
+        <a routerLink="/claim-type" routerLinkActive="active">
+          <span class="icomoon-settings"></span>
+          Claim Type</a>
+      </li>
+      <li *ngIf="!isAdmin">
+        <a routerLink="/settings" routerLinkActive="active">
+          <span class="icomoon-settings"></span>
+          Settings</a>
+      </li>
+      <li *ngIf="!isAdmin"><a target="_blank" href="https://mhslift.com/contact-us/">
+          <span class="icomoon-contact"></span>Contact Us</a>
+      </li>
+    </ul>
+  </nav>
+
+</mat-toolbar>
+<div class="new-version-notification"  *ngIf="uiBVersion!=version">
+  <ng-container>
+      There's a new version of the web app available, and to receive the new changes please <a href="#">refresh</a> the browser window
+  </ng-container>
+</div>
+

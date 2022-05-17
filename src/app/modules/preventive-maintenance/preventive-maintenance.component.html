@@ -1,0 +1,56 @@
+<div class="grid-container">
+  <div class="custom-flexible-grid">
+    <mat-card class="flexible-card">
+      <mat-card-header>
+        <mat-card-title>
+          Preventive Maintenance List
+          <!-- <h3>View your Preventive Manintenance list here. If you notice any discrepencies between this list and equipment list.</h3> -->
+        </mat-card-title>
+        <button (click)="goToPMCreate()" class="btn btn--primary" [disabled]="!selectedEquipmentList.length"
+              >
+              <span class="material-icons">
+                build
+              </span>
+              <span>Request PM for Selected Equipments</span>
+            </button>
+      </mat-card-header>
+      <app-search class="search-equipment-list" [data]="search" (search)="onSearch($event)" (clear)="onSearchClear()"></app-search>
+      <mat-card-content class="dashboard-card-content">
+        <ng-container *ngIf="pmList?.length; else noData">
+        <app-table [columnDef]="columns" [rowData]="pmList" [settings]="settings"
+          [pagination]="pagination" [expColumnDef]="expColumns" (changePage)="onPageChange($event)"
+          (changeRowSelection)="getSelectedPM($event)" (changeSort)="onSortChange($event)">
+          <ng-template template="header" let-columns>
+            <span [matTooltip]="columns.title">{{columns.title}}</span>
+          </ng-template>
+          <ng-template template="body" let-data>
+            <td *ngFor="let col of data.columns">
+              <ng-container [ngSwitch]="col.field">
+                <ng-container *ngSwitchCase="'equipmentSerialNo'"><span
+                    (click)="navToEquipmentDetails(data.rowData[col.field])"
+                    class="color-red">{{data.rowData[col.field]}}</span></ng-container>
+                <ng-container *ngSwitchCase="'lastPM'">
+                  <ng-container *ngIf="data.rowData[col.field]">
+                  <a (click)="openWOPdf(data.rowData.wopdfPath)"><span class="color-red">{{data.rowData[col.field]}}</span> </a>
+                </ng-container>
+                <ng-container *ngIf="!data.rowData[col.field]"> -
+                  </ng-container>
+              </ng-container>
+                <ng-container *ngSwitchDefault>
+                  <span class="table-data-ellipsis" [matTooltip]="data.rowData[col.field]">
+                    {{data.rowData[col.field] || '-'}}
+                  </span>
+
+                </ng-container>
+              </ng-container>
+            </td>
+          </ng-template>
+        </app-table>
+      </ng-container>
+               <ng-template #noData>
+            <div class="no-data-div">No Data Found</div>
+          </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<div class="grid-container">
+  <form [formGroup]="adminForm" autocomplete="off">
+    <mat-card class="flexible-card margin-bottom-1">
+      <mat-card-header>
+        <mat-card-title>
+          {{isEdit?'Edit Admin':'Add New Admin'}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+          <div class="row with-gutter-small">
+            <div class="col-12">
+              <mat-card class="flexible-card sub-card with-border">
+                <mat-card-header>
+                  <mat-card-title>
+                    Basic Info
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="dashboard-card-content">
+                  <div class="row with-gutter-small">
+                    <div class="col-3">
+                      <div class="form__group">
+                        <label class="form__label required" for="userFname">First Name of the User</label>
+                        <input formControlName="userFname" class="form__input" id="userFname" type="text"
+                        autocomplete="off"  placeholder="Enter First Name" aria-describedBy="First name of the user" />
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form__group">
+                        <label  class="form__label required" for="userLname">Last Name of the User</label>
+                        <input formControlName="userLname" class="form__input" id="userLname" type="text"
+                        autocomplete="off"   placeholder="Enter Last Name" aria-describedBy="Last name of the user" />
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form__group">
+                        <label class="form__label required" for="param1">Email</label>
+                        <input formControlName="param1" class="form__input" id="param1" type="text" placeholder="Email"
+                        autocomplete="off"  aria-describedBy="Email Address" />
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form__group">
+                        <label class="form__label required" for="mobileNo">Contact No.</label>
+                        <input formControlName="mobileNo" class="form__input" id="mobileNo" type="text"
+                          placeholder="000-000-0000" aria-describedBy="Contact Number" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row with-gutter-small">
+                    <div class="col-3">
+                      <div class="form__group">
+                        <label class="form__label required" for="jobDesignation">Job Designation</label>
+                        <input formControlName="jobDesignation" class="form__input" id="jobDesignation" type="text"
+                        autocomplete="off" placeholder="Designation" aria-describedBy="Job Designation" />
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+      </mat-card-content>
+      <mat-card-content class="dashboard-card-content" *ngIf="!isEdit">
+          <div class="row with-gutter-small">
+            <div class="col-12">
+              <mat-card class="flexible-card sub-card with-border">
+                <mat-card-header>
+                  <mat-card-title>
+                    Create Password
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="dashboard-card-content">
+                  <div class="row with-gutter-small">
+                    <div class="col-3">
+                      <div class="form__group">
+                        <label class="form__label required" for="newPassword">New Password</label>
+                        <input formControlName="param2" class="form__input disable-auto" id="newPassword" type="text" placeholder="New Password"
+                          aria-describedBy="New Password" autocomplete="new-password"/>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="form__group">
+                        <label class="form__label required" for="confirmPassword">Confirm New Password</label>
+                        <input formControlName="confirmParam2"
+                        class="form__input disable-auto" id="confirmPassword" type="password" placeholder="Confirm Password"
+                          aria-describedBy="Confirm New Password"  autocomplete="new-password"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row with-gutter-small margin-bottom-1 margin-top-1">
+                    <span class="color-red">
+                      *Password should contain a minimum of 8 characters with an Upper Case Letter, a
+                      Lower Case Letter, a Numeric Character and a Special Character.
+                    </span>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+      </mat-card-content>
+      <button matRipple class="btn btn--primary" (click)="addOrEditAdmin()">
+        <span>{{isEdit ? 'Edit Admin' : 'Add Admin'}}</span>
+      </button>
+      <button matRipple class="btn btn--tertiary without-border" (click)="navBack()">
+        <span>Cancel</span>
+      </button>
+    </mat-card>
+  </form>
+</div>

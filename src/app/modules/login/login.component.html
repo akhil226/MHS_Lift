@@ -1,0 +1,44 @@
+<div class="main-wrapper background" fxLayout="row" fxLayoutAlign="center center">
+
+  <mat-card class="box">
+    <div class="logo">
+      <img class="login-logo" src="assets/images/mhsLogo.png" alt="logo">
+    </div>
+    <mat-card-title>Login</mat-card-title>
+    <section class="mat-title">
+      <h5>Enter your login details below</h5>
+    </section>
+
+    <form class="login-form" [formGroup]="loginForm" (submit)="login()">
+      <mat-card-content>
+        <div class="form-field-wrapper">
+          <input formControlName="param1" matInput class="form-field" type="text" placeholder="Email">
+        </div>
+        <div class="form-field-wrapper">
+          <input formControlName="param2" matInput class="form-field" [type]="showPassword" placeholder="Password">
+          <span  class="material-icons eye" #eye>
+            remove_red_eye
+          </span>
+        </div>
+        <div class="form__group">
+          <div class="form__checkbox">
+            <input [formControl]="rememberMe" class="form__input" type="checkbox" id="checkbox-checked">
+            <label class="form__label" for="checkbox-checked">Remember Me</label>
+          </div>
+        </div>
+      </mat-card-content>
+      <button type="submit" [disabled]="!loginForm.valid || loader" mat-flat-button color="primary" class="btn-block btn-login">Login</button>
+      <section class="forgot-password">
+        <div class="mat-caption" (click)="showForgotPasswordPopup()">
+          Forgot Password
+        </div>
+        <div>
+          Don't have a login? <a target="_blank" class="underLine mat-caption" href="https://mhslift.com/contact-us/">
+            Contact Us Now</a>
+        </div>
+      </section>
+    </form>
+  </mat-card>
+
+</div>
+<app-loader *ngIf="loader"></app-loader>

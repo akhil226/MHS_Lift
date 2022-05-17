@@ -1,0 +1,51 @@
+<div class="grid-container">
+  <app-search class="search-equipment-list" [data]="search" (search)="onSearch($event)" (clear)="onSearchClear()">
+  </app-search>
+  <div class="custom-flexible-grid">
+    <mat-card class="flexible-card">
+      <mat-card-header class="reduced-padding align-items-center">
+        <mat-card-title>
+          Admins
+        </mat-card-title>
+        <button matRipple routerLink="/admin/add" class="btn btn--primary">
+          <img class="button-icons" src="./assets/icons/add-user.svg" alt="add">
+          Add New Admin
+        </button>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <ng-container *ngIf="userData?.length; else noData">
+          <app-table [columnDef]="columns" [rowData]="userData" [settings]="settings" [pagination]="pagination"
+            (changePage)="onPageChange($event)">
+            <ng-template template="header" let-columns>
+              <ng-container>{{columns.title}}</ng-container>
+            </ng-template>
+            <ng-template template="body" let-data>
+              <td *ngFor="let col of data.columns;trackBy: trackByIndex">
+                <ng-container [ngSwitch]="col.field">
+                  <ng-container *ngSwitchCase="'edit'">
+                    <button matRipple class="zero-space" mat-button (click)="navToEdit(data.rowData)">
+                      <img class="button-icons" src="./assets/images/edit.svg" alt="Edit"> Edit
+                    </button>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'activate'">
+                    <mat-slide-toggle [name]="data.index" [id]="data.index"
+                      [checked]="data.rowData['listUserStatus'] === 'A'"
+                      (toggleChange)="onActivationChange(data.index, data.rowData)" color="success"></mat-slide-toggle>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    <span class="table-data-ellipsis" [matTooltip]="data.rowData[col.field]">
+                      {{data.rowData[col.field] || '-'}}
+                    </span>
+                  </ng-container>
+                </ng-container>
+              </td>
+            </ng-template>
+          </app-table>
+        </ng-container>
+        <ng-template #noData>
+          <div class="no-data-div">No Data Found</div>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

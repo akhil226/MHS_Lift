@@ -1,0 +1,260 @@
+<div class="grid-container">
+  <mat-card class="flexible-card margin-bottom-1">
+    <mat-card-header>
+      <mat-card-title>
+        {{isEdit?'Edit User':'Add New User'}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dashboard-card-content">
+      <form [formGroup]="userBasicInfoForm">
+        <div class="row with-gutter-small">
+          <div class="col-12">
+            <mat-card class="flexible-card sub-card with-border">
+              <mat-card-header>
+                <mat-card-title>
+                  Basic Info
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="dashboard-card-content">
+                <div class="row with-gutter-small">
+                  <div class="col-3">
+                    <div class="form__group">
+                      <label class="form__label required" for="userFname">First Name of the User</label>
+                      <input formControlName="userFname" maxlength="30" class="form__input" id="userFname" type="text"
+                      autocomplete="off"  placeholder="Enter First Name" aria-describedBy="First name of the user" />
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form__group">
+                      <label class="form__label required" for="userLname">Last Name of the User</label>
+                      <input formControlName="userLname" maxlength="30" class="form__input" id="userLname" type="text"
+                      autocomplete="off"    placeholder="Enter Last Name" aria-describedBy="Last name of the user" />
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form__group">
+                      <label class="form__label required" for="param1">Email</label>
+                      <input formControlName="param1" class="form__input" id="param1" type="text" placeholder="Email"
+                      autocomplete="off"  aria-describedBy="Email Address" />
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form__group">
+                      <label class="form__label required" for="mobileNo">Contact No.</label>
+                      <input  formControlName="mobileNo" class="form__input" id="mobileNo" type="text"
+                      autocomplete="off"   placeholder="000-000-0000" aria-describedBy="Contact Number" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row with-gutter-small">
+                  <div class="col-3">
+                    <div class="form__group">
+                      <div class="form__checkbox">
+                        <input formControlName="superUser" class="form__input" type="checkbox" id="checkbox-checked">
+                        <label class="form__label" for="checkbox-checked">Super User</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3" *ngIf="isEdit">
+                    <div class="form__group">
+                      <button matRipple class="btn btn--tertiary" (click)="showResetPopup()">
+                        <span>Reset Password</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+    <ng-container *ngIf="settingsForm">
+      <form [formGroup]="settingsForm">
+        <div class="row with-gutter-small">
+          <div class="col-6">
+            <mat-card-content class="dashboard-card-content">
+              <div class="row with-gutter-small">
+                <div class="col-12">
+                  <mat-card class="flexible-card sub-card with-border">
+                    <mat-card-header>
+                      <mat-card-title>
+                        Billing ID<span class="red">*</span>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="dashboard-card-content">
+                      <div class="row with-gutter-small">
+                        <div class="col-12">
+                          <div class="form__group">
+                            <app-billing-id-search (billingIdChange)="onBillingIdChange($event)">
+                            </app-billing-id-search>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row with-gutter-small">
+                        <div class="col-12">
+                          <table class="table-view">
+                            <thead>
+                              <tr>
+                                <th>Billing ID</th>
+                                <th>Company Name</th>
+                                <th>Shipping ID</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody *ngIf="billingDetails.length">
+
+                              <tr *ngFor="let bill of billingDetails trackBy:trackByBillingID; let i = index">
+                                <td>
+                                  {{bill.billTo}}
+                                </td>
+                                <td>{{bill.billToName}}</td>
+                                <td (click)="showShippingIdSelection(bill)"><a>Select</a></td>
+                                <td>
+                                  <button matRipple class="zero-space" mat-button color="warn" (click)="showDeleteBillingIdPopup(i)">
+                                    <img class="button-icons" src="./assets/images/delete.svg" alt="Delete"> Delete
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </mat-card-content>
+          </div>
+          <div class="col-6">
+            <mat-card-content class="dashboard-card-content">
+              <div class="row with-gutter-small">
+                <div class="col-12">
+                  <mat-card class="flexible-card sub-card with-border">
+                    <mat-card-header>
+                      <mat-card-title>
+                        Privileges Access
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="dashboard-card-content">
+                      <div class="row with-gutter-small">
+                        <div class="col-6" *ngIf="keyFeatureSettings && keyFeatureSettings.length">
+                          <mat-card class="flexible-card sub-card with-border">
+                            <mat-card-header>
+                              <mat-card-title>
+                                Key Features
+                              </mat-card-title>
+                              <mat-slide-toggle [formControlName]="keyFeatureSettings[0].menuId" class="pull-right"
+                                color="success"></mat-slide-toggle>
+                            </mat-card-header>
+                            <mat-card-content class="dashboard-card-content">
+                              <ul class="no-style">
+                                <li>WO Status</li>
+                                <li>Service Details Search</li>
+                                <li>Equipment Search</li>
+                              </ul>
+                            </mat-card-content>
+                          </mat-card>
+                        </div>
+                        <div class="col-6" *ngIf="reqFeatureSettings && reqFeatureSettings.length">
+                          <mat-card class="flexible-card sub-card with-border">
+                            <mat-card-header>
+                              <mat-card-title>
+                                Request Feature
+                              </mat-card-title>
+                              <mat-slide-toggle [formControlName]="reqFeatureSettings[0].menuId" class="pull-right"
+                                color="success"></mat-slide-toggle>
+                            </mat-card-header>
+                            <mat-card-content class="dashboard-card-content">
+                              <ul class="no-style">
+                                <li>Service Request</li>
+                                <li>PM Request</li>
+                              </ul>
+                            </mat-card-content>
+                          </mat-card>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                    <ul class="previlages-list no-style" *ngIf="dashboardSettings">
+                      <li *ngFor="let settings of dashboardSettings">
+                        {{settings.menuName}}
+                        <mat-slide-toggle [formControlName]="settings.menuId" class="pull-right" color="success">
+                        </mat-slide-toggle>
+                      </li>
+                    </ul>
+                  </mat-card>
+                </div>
+              </div>
+            </mat-card-content>
+          </div>
+        </div>
+
+        <div class="row with-gutter-small" *ngIf="notificationSettings?.length">
+          <div class="col-12">
+            <mat-card class="flexible-card sub-card with-border">
+              <mat-card-header>
+                <mat-card-title>
+                  Notification Settings
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="dashboard-card-content">
+                <div class="row with-gutter-small">
+                  <div class="col-6">
+
+                  </div>
+                  <div class="col-2 text-center">
+                    Email Notification
+                  </div>
+                  <div class="col-2 text-center">
+                    Text Message
+                  </div>
+                  <div class="col-2 text-center">
+                    Mobile Notification
+                  </div>
+                </div>
+                <div class="row with-gutter-small">
+                  <div class="col-6">
+                    <h5 class="no-margin">Work Order Status Change</h5>
+                    <h6>User will be notified whenever there is a change in Work Order Status.</h6>
+                  </div>
+                  <div class="col-2 object-center" *ngIf="notificationMenuIds['13']">
+                    <mat-slide-toggle formControlName="13" color="success"></mat-slide-toggle>
+                  </div>
+                  <div class="col-2 object-center" *ngIf="notificationMenuIds['12']">
+                    <mat-slide-toggle formControlName="12" color="success"></mat-slide-toggle>
+                  </div>
+                  <div class="col-2 object-center" *ngIf="notificationMenuIds['8']">
+                    <mat-slide-toggle formControlName="8" color="success"></mat-slide-toggle>
+                  </div>
+                </div>
+                <div class="row with-gutter-small">
+                  <div class="col-6">
+                    <h5 class="no-margin">New Service and PM request</h5>
+                    <h6>User will be notified whenever a Service / PM request is created.</h6>
+                  </div>
+                  <div class="col-2 object-center" *ngIf="notificationMenuIds['9']">
+                    <mat-slide-toggle formControlName="9" color="success"></mat-slide-toggle>
+                  </div>
+                  <div class="col-2 object-center" *ngIf="notificationMenuIds['10']">
+                    <mat-slide-toggle formControlName="10" color="success"></mat-slide-toggle>
+                  </div>
+                  <div class="col-2 object-center" *ngIf="notificationMenuIds['11']">
+                    <mat-slide-toggle formControlName="11" color="success"></mat-slide-toggle>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <button matRipple class="btn btn--primary" (click)="addOrEditUser()">
+      <span>Save Changes</span>
+    </button>
+    <button matRipple class="btn btn--tertiary without-border" (click)="navBack()">
+      <span>Cancel</span>
+    </button>
+  </mat-card>
+  <!-- </mat-grid-tile>
+  </mat-grid-list> -->
+</div>

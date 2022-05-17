@@ -1,0 +1,33 @@
+.footer {
+  height: 36px
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  img {
+    width: 11rem;
+  }
+}
+.header-navigation {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  li {
+    padding: 0 0.3rem;
+      a {
+        font-size: 14px;
+        color: #d97373;
+        font-weight: normal;
+      }
+  }
+}
+.width-100 {
+  width: 100%;
+}
+.flt-right {
+  margin-left: auto;
+}

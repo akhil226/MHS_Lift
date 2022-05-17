@@ -1,0 +1,14 @@
+<input [formControl]="input" class="form__input" id="billingId" type="text" placeholder="Search for Billing ID to Add"
+  value="" aria-describedBy="Search billing id" [matAutocomplete]="auto" />
+<mat-autocomplete #auto="matAutocomplete">
+  <ng-container *ngIf="(searchResult$ | async) as searchResult">
+    <ng-container *ngIf="searchResult?.length; else noData">
+      <mat-option *ngFor="let bill of searchResult" [value]="bill" (onSelectionChange)="onBillingIdChange($event,bill)">
+        {{bill.billTo}} - {{bill.billToName}}
+      </mat-option>
+    </ng-container>
+    <ng-template #noData>
+      <mat-option>No Data Found</mat-option>
+    </ng-template>
+  </ng-container>
+</mat-autocomplete>

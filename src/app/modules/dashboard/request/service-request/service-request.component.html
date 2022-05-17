@@ -1,0 +1,163 @@
+<div class="grid-container">
+  <div class="row">
+    <div class="col-12 margin-bottom-1">
+      <mat-card class="flexible-card sub-card-2 with-border">
+        <mat-card-header>
+          <mat-card-title>
+            Request Service
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content" *ngIf="serviceRequestForm">
+          <form [formGroup]="serviceRequestForm" (submit)="submitRequestService()" >
+
+          <div class="row with-gutter">
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label required" for="equipSrNo">Serial #</label>
+                <app-multiselect formControlName="equipSrNo" id="equipSrNo" name="equipSrNo" [dropdown]="serialNoDd"></app-multiselect>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label required"  for="equipUnitNo">Unit #</label>
+                <app-multiselect id="unitNo" formControlName="equipUnitNo" name="equipUnitNo" [dropdown]="unitNoDd"></app-multiselect>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label required" for="equipMake">Make</label>
+                <input class="form__input" formControlName="equipMake" id="equipMake" readonly type="text" placeholder="Make" 
+                  aria-invalid="false" aria-describedBy="default-hint" />
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label required" for="equipModel">Model</label>
+                <input class="form__input" formControlName="equipModel" id="equipModel" readonly type="text" placeholder="Model" 
+                  aria-invalid="false" aria-describedBy="default-hint" />
+              </div>
+            </div>
+          </div>
+          <div class="row with-gutter">
+           
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label required" for="equipLocation">Location</label>
+                <input class="form__input" formControlName="equipLocation" id="equipLocation" readonly type="text" placeholder="Location" 
+                  aria-invalid="false" aria-describedBy="default-hint" />
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label required" for="contactName">Contact Name</label>
+                <input class="form__input" formControlName="contactName" id="contactName" readonly type="text" placeholder="Contact Name" 
+                  aria-invalid="false" aria-describedBy="default-hint" />
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label required" for="contactPhones">Contact Phone</label>
+                <input class="form__input" formControlName="contactPhones" id="contactPhones" type="text" placeholder="Contact Phone" 
+                  aria-invalid="false" aria-describedBy="default-hint" />
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label" for="poNumber">PO #</label>
+                <input class="form__input" formControlName="poNumber" id="poNumber" type="text" placeholder="Enter PO #" maxlength="50"
+                  aria-invalid="false" aria-describedBy="default-hint" />
+              </div>
+            </div>
+
+          </div>
+         
+          <div class="row with-gutter">
+            <div class="col-12">
+              <div class="form__group">
+                <label class="form__label required" for="requestDesc">Description of Concern</label>
+                <textarea class="form__input" formControlName="requestDesc" id="requestDesc" type="text" placeholder="Describe Your Concern"
+                   aria-invalid="false" aria-describedBy="default-hint"></textarea>
+              </div>
+            </div>
+            
+          </div>
+          <div class="row with-gutter">
+            <div class="col-6">
+              <div class="form__group">
+                <label class="form__label required" for="contactEmails">Email Adddress(Comma separated or New line, if multiple)</label>
+                <textarea class="form__input" formControlName="contactEmails" id="contactEmails" type="text" placeholder="Enter Email Adddress"
+                   aria-invalid="false" aria-describedBy="default-hint"></textarea>
+              </div>
+            </div>
+            
+            <div class="col-3">
+              <fieldset>
+                <legend class="radio-group-font-text" >Truck down?</legend>
+                <div class="form__group">
+                  <div class="form__radio">
+                    <input class="form__input" type="radio" name="truckDown" value="Y" formControlName="truckDown" id="radio-selected" checked>
+                    <label class="form__label" for="radio-selected">Yes</label>
+                  </div>
+                  <div class="form__radio">
+                    <input class="form__input" type="radio" name="truckDown" value="N" formControlName="truckDown" id="radio-unselected">
+                    <label class="form__label" for="radio-unselected">No</label>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            
+            <div class="col-3">
+              <div class="form__group">
+                <div class="form__checkbox">
+                  <input class="form__input" type="checkbox"  formControlName="needEmService" id="checkbox-checked" >
+                  <label class="form__label" for="checkbox-checked">Need Emergency Service</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row with-gutter">
+            <div class="col-3">
+              <div class="form__group">
+                <label class="form__label" for="default-hint">Choose a file to attach (Max 5 files)</label>
+                <div class="upload-btn-wrapper">
+                  <button class="btn-upload">Upload a file</button>
+                  <input type="file" #file (change)='getAttchment(file.files)' name="myfile" [disabled]="!!attachmentList.length && attachmentList.length >4" />
+              </div>
+              </div>
+            </div>
+            <div class="col-9" *ngIf="!!attachmentList.length">
+              <app-table [columnDef]="attachmentListColumns" [rowData]="attachmentList"
+              [settings]="attachmentListSettings">
+              <ng-template template="header" let-columns>
+                <span [matTooltip]="columns.title">{{columns.title}}</span>
+              </ng-template>
+              <ng-template template="body" let-data>
+                <td *ngFor="let col of data.columns;">
+                  <ng-container [ngSwitch]="col.field">
+                    <ng-container *ngSwitchCase="'remove'"><span (click)="deleteAttachment(data.index)"
+                        class="color-red">{{data.rowData[col.field]}}</span>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                      <span>
+                        {{data.rowData[col.field] || '-'}}
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </td>
+              </ng-template>
+            </app-table>
+            </div>
+          </div>
+         
+          <button type ="button" class="btn btn--primary" (click)="onReset()">
+            <span>Reset</span>
+          </button>
+          <button  type="submit" class="btn btn--primary">
+            <span>Submit</span>
+          </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
