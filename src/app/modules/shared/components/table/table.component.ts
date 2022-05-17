@@ -62,8 +62,6 @@ export class TableComponent implements OnInit, OnChanges {
   }
   expandOrCollapse(index: number): void {
     this.rowData[index].expanded = !this.rowData[index].expanded;
-    console.log(this.rowData,"from tanle .......");
-
   }
   sort(orderBy: string, order: 'asc' | 'desc', type: 'date' | ''): void {
     this.orderBy = orderBy;
