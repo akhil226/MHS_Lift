@@ -28,7 +28,7 @@
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",
     "jspdf-html2canvas": "^1.4.9",
-    "ng-multiselect-dropdown": "^0.2.14",
+    "ng-multiselect-dropdown": "^0.3.8",
     "ngx-otp-input": "^0.9.0",
     "pdfmake": "^0.2.5",
     "rb-letter-avatar": "^2.0.0",
