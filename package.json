@@ -30,7 +30,7 @@
     "jspdf-html2canvas": "^1.4.9",
     "ng-multiselect-dropdown": "^0.2.14",
     "ngx-otp-input": "^0.9.0",
-    "pdfmake": "^0.2.5",
+    "pdfmake": "^0.2.7",
     "rb-letter-avatar": "^2.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
